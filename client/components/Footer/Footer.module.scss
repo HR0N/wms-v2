@@ -1,0 +1,63 @@
+.footer{
+  margin-top: 200px;
+  background-color: whitesmoke;
+  padding: 50px 20px;
+
+  .pack{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, auto));
+    justify-content: space-evenly;
+    gap: 20px;
+    .col{
+      max-width: 160px;
+      .title{
+        font-size: 1em;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: var(--black-v2);
+      }
+      .title_phone{
+        font-size: 1em;
+        font-weight: bold;
+        font-family: var(--roboto);
+        color: var(--grey-v2);
+      }
+      .link{
+        display: block;
+        font-size: .9em;
+        color: var(--grey-v2);
+      }
+      .phone{
+        font-size: .8em;
+        font-weight: bold;
+        margin: 10px 0;
+      }
+      .socials{
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(20px, auto));
+        align-items: center;
+        gap: 10px;
+        .instagram, .youtube, .telegram{}
+        .instagram i, .youtube i, .telegram i{
+          font-size: 1.4em;
+        }
+        .instagram{
+          color: #651688;
+          text-shadow: 1px 1px 2px dimgrey;
+        }
+        .youtube{
+          color: red;
+          text-shadow: 0 0 1px dimgrey;
+        }
+        .telegram{
+          color: #008aff;
+          text-shadow: 0 0 1px dimgrey;
+        }
+      }
+      .address{
+        font-size: .9em;
+        color: var(--grey-v2);
+      }
+    }
+  }
+}

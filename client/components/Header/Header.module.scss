@@ -1,0 +1,115 @@
+.header{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, auto));
+  align-items: center;
+  position: absolute;
+  width: 100%;
+  height: 80px;
+  top: 0;
+  left: 0;
+
+  padding: 20px;
+  z-index: 3;
+
+  opacity: 0;
+  transition: all .5s;
+  nav{
+    display: grid;
+    grid-auto-flow: column;
+    .nav_item{
+      position: relative;
+      padding: 6px 12px;
+      font-weight: bold;
+      text-align: center;
+      font-family: var(--roboto);
+      white-space: nowrap;
+      &:after{
+        display: block;
+        position: absolute;
+        content: '';
+        height: 2px;
+        width: 0;
+        left: 50%;
+        background-color: lightgrey;
+        transition: all .3s;
+      }
+      &:hover:after{
+        width: calc(100% - 24px);
+        left: 12px;
+      }
+    }
+  }
+}
+.header_i{
+  display: inline-block;
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 12px;
+  font-size: 1.4em;
+  color: whitesmoke;
+  text-shadow: 1px 1px 2px grey;
+}
+.toggle_menu{
+  left: 100%;
+  background-color: rgba(45, 45, 45, 0.2) !important;
+}
+
+.header_fixed{
+  position: fixed;
+  height: auto;
+  padding: 2px 20px;
+  background-color: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(3px);
+  border-bottom: 1px solid lightgrey;
+  box-shadow: 0 1px 3px lightgrey;
+  transition: none;
+  animation: header_fade_in_top forwards 1s;
+
+  nav {
+    .nav_item {
+      padding: 10px;
+      &:after {
+        background-color: var(--black-v2);
+      }
+    }
+  }
+}
+
+@keyframes header_fade_in_top {
+  0%{
+    top: -80px;
+  }
+  100%{
+    top: 0;
+  }
+}
+
+@media screen and (max-width: 426px) {
+  .header{
+    position: fixed;
+    height: auto;
+    padding-top: 50px;
+    background-color: rgba(45, 45, 45, 0.9);
+    backdrop-filter: blur(2px);
+
+    transition: ease-in-out all .7s;
+    nav{
+      grid-auto-flow: row;
+      row-gap: 6px;
+      .nav_item{
+        color: whitesmoke;
+        text-align: left;
+        background-color: rgba(255, 255, 255, 0.04);
+        border-radius: .2rem;
+        padding: 12px 12px;
+        &:after{
+          display: none;
+        }
+        &:hover{
+          background-color: rgba(255, 255, 255, 0.15);
+        }
+      }
+    }
+  }
+}

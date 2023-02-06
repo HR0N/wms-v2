@@ -1,0 +1,78 @@
+@import "~h-bootstrap";
+
+html, body{
+  margin: 0;
+  padding: 0;
+  color: var(--black-v2);
+}
+
+*{
+  font-size: 18px;
+  font-weight: 300;
+  font-family: var(--comic);
+
+  box-sizing: border-box;
+}
+
+a{
+  color: inherit;
+  text-decoration: none;
+}
+
+:root{
+  --black: #030e12;
+  --black-v2: #2d2d2d;
+
+  --grey: #363636;
+  --grey-v2: #7f7f7f;
+  --grey-v3: #D3D3D3;
+
+  --white: #ffffff;
+  --white-v2: #E9E2C5;
+  --white-v3: #f5eec2;
+
+  --red: #ed3529;
+  --red-v2: #c4332c;
+  --red-v3: #cc4839;
+  --red-v4: #ba0018;
+  --red-v5: #f15d59;
+  --red-v6: #f1493d;
+
+  --green: #416a59;
+  --green-v2: #282612;
+  --green-v3: #73a24e;
+  --green-v4: #a9c25d;
+
+  --blue: #39395f;
+  --blue-v2: #1b4d89;
+  --blue-v3: #303179;
+  --blue-v4: #5bccf6;
+  --blue-v5: #c8d8d4;
+  --blue-v6: #f2f2f2;
+
+  --yellow: #fcde67;
+
+
+  --roboto: 'Roboto', sans-serif;
+  --montserrat: 'Montserrat', sans-serif;
+  --comic: "Comic Sans MS", sans-serif;
+}
+
+/*  scrollbar   */
+body, html{
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #b6c9ff;
+  }
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #222431;
+  }
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+}

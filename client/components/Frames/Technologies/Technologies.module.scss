@@ -1,0 +1,62 @@
+.technologies{
+  margin-top: 300px;
+  background-color: rgb(14,14,14);
+  color: white;
+  width: 100%;
+  overflow: hidden;
+  padding: 100px 2%;
+  .wrap_4_title{
+    margin: 20px 0;
+    font-size: 32px;
+    font-family: "Segoe UI", serif;
+    span{
+      font-style: italic;
+      font-size: .8em;
+      margin-right: 100px;
+      &:before{
+        content: '/';
+        color: #4f5a90;
+      }
+      &:after{
+        content: '<';
+        color: #4f5a90;
+      }
+    }
+  }
+  .tech_rows{
+    .row{
+      transition: linear all .5s;
+      margin: 10px 0;
+      span{
+        font-size: 46px;
+        margin-left: 45px;
+        white-space: nowrap;
+        font-family: "Roboto Mono", sans-serif;
+        &:nth-child(odd){
+          color: #5a616d;
+        }
+        &:nth-child(even){
+          color: #9c9c9c;
+        }
+        &:before{
+          content: '/';
+          color: #4f5a90;
+        }
+        &:after{
+          content: '<';
+          color: #4f5a90;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .tech_rows {
+    .row {
+      span {
+        font-size: 26px !important;
+      }
+    }
+  }
+}
