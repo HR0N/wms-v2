@@ -1,0 +1,52 @@
+.registration{
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 30px;
+
+  width: 300px;
+  padding-top: 35px;
+
+  border-radius: .2rem;
+  box-shadow: 1px 1px 6px grey;
+
+  color: var(--grey);
+
+  background-color: var(--white-v4);
+}
+.title{
+  padding: 0 25px;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+.inputs{
+  display: grid;
+  grid-auto-flow: row;
+  row-gap: 25px;
+
+  padding: 0 25px;
+  .input input{
+    box-shadow: inset 0 0 3px var(--grey-v2);
+    height: 46px;
+    &::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+      color: var(--grey-v3);
+    }
+  }
+}
+.footer{
+  padding: 35px 25px;
+  border-radius: 0 0 .2rem .2rem;
+  background-color: rgb(212,222,223);
+
+  border-top: 1px solid #d3d3d3;
+  .buttons{
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: space-between;
+    div{
+      font-weight: 500;
+    }
+    .submit{
+      color: white;
+    }
+  }
+}

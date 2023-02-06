@@ -58,7 +58,7 @@
 - set .env | example: FRONT_URL=https://example.com
 ##### Settings
 - back > config > cors.php > 'allowed_origins' => ['https://example.com'],
-- back > config > cors.php > 'supports_credentials' => true,
+- back > config > cors.php > 'supports_credentials' => true\false,
 #### Deploy
 - check both .htaccess: root, public
 #### Problems
@@ -83,6 +83,7 @@ open config/database.php, then
 
 ## GitHub
 ###…or create a new repository on the command line
+
 echo "# wms-v2" >> README.md
 git init
 git add README.md
@@ -93,6 +94,7 @@ git push -u origin main
 
 
 ###…or push an existing repository from the command line
+
 git remote add origin https://github.com/HR0N/wms-v2.git
 git branch -M main
 git push -u origin main

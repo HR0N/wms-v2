@@ -9,7 +9,6 @@ html, body{
 *{
   font-size: 18px;
   font-weight: 300;
-  font-family: var(--comic);
 
   box-sizing: border-box;
 }
@@ -20,7 +19,7 @@ a{
 }
 
 :root{
-  --black: #030e12;
+  --black: rgb(34,31,31);
   --black-v2: #2d2d2d;
 
   --grey: #363636;
@@ -30,6 +29,7 @@ a{
   --white: #ffffff;
   --white-v2: #E9E2C5;
   --white-v3: #f5eec2;
+  --white-v4: rgb(243,243,243);
 
   --red: #ed3529;
   --red-v2: #c4332c;
@@ -56,6 +56,7 @@ a{
   --roboto: 'Roboto', sans-serif;
   --montserrat: 'Montserrat', sans-serif;
   --comic: "Comic Sans MS", sans-serif;
+  --sergoe: "Segoe UI", sans-serif;
 }
 
 /*  scrollbar   */
