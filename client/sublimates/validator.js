@@ -1,5 +1,6 @@
 // npm i validator
-import validator from "validator/es";
+// import validator from "validator/es";
+const validator = require('validator');
 
 class ValidatorClass {
     /* return boolean */

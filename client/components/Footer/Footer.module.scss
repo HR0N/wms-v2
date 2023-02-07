@@ -3,6 +3,8 @@
   background-color: whitesmoke;
   padding: 50px 20px;
 
+  font-family: var(--comic);
+
   .pack{
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, auto));

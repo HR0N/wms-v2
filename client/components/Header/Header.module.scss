@@ -33,9 +33,11 @@
         background-color: lightgrey;
         transition: all .3s;
       }
-      &:hover:after{
-        width: calc(100% - 24px);
-        left: 12px;
+      &:hover{
+        &:after{
+          width: calc(100% - 24px);
+          left: 12px;
+        }
       }
     }
   }

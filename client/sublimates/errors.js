@@ -1,4 +1,4 @@
-export default class Errors {
+export default class ErrorsClass {
     constructor() {
         this.errors = {
             400: {title: '400 Bad Request', message: 'invalid request'},

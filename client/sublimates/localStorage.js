@@ -1,6 +1,6 @@
-class LocalStorage {
+class LocalStorageClass {
     constructor() {
-        this.ls = window.localStorage;
+        try{this.ls = window.localStorage;}catch{console.log(`couldn't load local storage`);}
     }
 
     // save user
@@ -29,4 +29,4 @@ class LocalStorage {
     }
 }
 
-export default LocalStorage;
+export default LocalStorageClass;

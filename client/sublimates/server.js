@@ -2,7 +2,7 @@ import LocalStorage from "./localStorage";
 import axios from 'axios';
 
 
-class Server {
+class ServerClass {
     constructor() {
         this.devUrl = "http://127.0.0.1:8000/";
         this.prodUrl = "https://temp1b.evilcode.space/";
@@ -20,11 +20,11 @@ class Server {
 
 
     registration(data){
-        let {name, email, pass, pass2} = data;
+        let {name, email, password, password_confirmation} = data;
         this.axios.get('sanctum/csrf-cookie')
             .then(res => {
                 this.axios.post('api/register',
-                    {name: name, email: email, password: pass, password_confirmation: pass2})
+                    {name, email, password, password_confirmation})
                     .then(res =>{
                         console.log(res);
                     })
@@ -33,10 +33,10 @@ class Server {
 
 
     login(data, callbackError = ()=>{}, callbackSuccess = ()=>{}){
-        let {email, pass} = data;
+        let {email, password} = data;
         this.axios.get('sanctum/csrf-cookie')
             .then(res => {
-                this.axios.post('api/login', {email: email, password: pass})
+                this.axios.post('api/login', {email: email, password: password})
                     .catch((err)=>{return callbackError(err);})
                     .then(res =>{
                         callbackSuccess(res);
@@ -62,4 +62,4 @@ class Server {
     }
 
 }
-export default Server;
+export default ServerClass;
