@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import ss from "./Login.module.scss"
 import InputClass from "@/sublimates/input";
 import ValidatorClass from "@/sublimates/validator";
@@ -26,7 +26,12 @@ const Login = (props) => {
     const submit = (e) => {
         e.preventDefault();
         let data = serialize.serialize_form(e);
+        server.login(data, (err)=>{console.log(err);});
     };
+    useEffect(() => {
+
+        server.with_token();
+    }, []);
 
     return (
         <>

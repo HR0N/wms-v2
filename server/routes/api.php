@@ -1,4 +1,5 @@
 <?php
+
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\VerifyEmailController;
@@ -18,18 +19,18 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
-Route::get('/contact', [VerifyEmailController::class, 'contact']);
-Route::get('/test', [Controller::class, 'index']);
+Route::get('/mail', [VerifyEmailController::class, 'contact']);
 
 
 
 Route::group(['middleware' => 'auth:sanctum'], function (){
+    Route::get('/test', [Controller::class, 'index']);
 
 });
 
 
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+Route::middleware('auth:sanctum')->post('/user', function (Request $request) {
     return $request->user();
 });
 
@@ -44,4 +45,4 @@ Route::post('/email/verify/resend', function (Request $request) {
     return back()->with('message', 'Verification link sent!');
 })->middleware(['auth:api', 'throttle:6,1'])->name('verification.send');
 
-Auth::routes(['verify' => true]);
+//Auth::routes(['verify' => true]);

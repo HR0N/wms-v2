@@ -30,7 +30,13 @@ export const Header = ()=>{
             window.addEventListener('scroll', () => {handleScroll(header)});
         }
 
-        setTimeout(() => {$(header.current).css({'opacity':'1'})}, 2000);
+        let href = window.location.href;
+        href = href.slice(0, -1);
+        let origin = window.location.origin;
+        let delay = 2000;
+        if(href !== origin){delay = 1;}
+
+        setTimeout(() => {$(header.current).css({'opacity':'1'})}, delay);
         return window.removeEventListener('scroll', () => {handleScroll(header)});
     }, []);
 
@@ -38,8 +44,9 @@ export const Header = ()=>{
         <>
             <header className={`${ss.header} ${mobile ? (showMenu ? '' : ss.toggle_menu) : false}`} ref={header}>
                 <nav>
-                    <Link href={'#'}><div className={ss.nav_item}>Link</div></Link>
+                    <Link href={'/'}><div className={ss.nav_item}>Home</div></Link>
                     <Link href={'#'}><div className={ss.nav_item}>Another link</div></Link>
+                    <Link href={'auth'}><div className={ss.nav_item}>Auth</div></Link>
                 </nav>
                 {mobile && showMenu ?
                     <i onClick={() => {setShowMenu(!showMenu)}}
