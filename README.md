@@ -59,6 +59,7 @@
 ##### Settings
 - back > config > cors.php > 'allowed_origins' => ['https://example.com'],
 - back > config > cors.php > 'supports_credentials' => true\false,
+- back > app > Models > User.php >  implements MustVerifyEmail
 #### Deploy
 - check both .htaccess: root, public
 #### Problems

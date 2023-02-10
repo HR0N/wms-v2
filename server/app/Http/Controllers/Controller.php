@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\Auth;
 
 class Controller extends BaseController
 {
@@ -20,5 +21,22 @@ class Controller extends BaseController
         ];
 
         return $data;
+    }
+
+    public function redirect_post() {
+        $endpoint = 'https://wms.evilcode.space/auth';
+        $data = [];
+
+        $user = Auth::user();
+        $data['name'] = $user->name;
+        $data['token'] = $user->createToken('myapptoken')->plainTextToken;
+
+
+        $json = implode($data);
+        $query = http_build_query($data);
+
+        echo http_build_query($data);
+
+        return redirect()->to($endpoint.'?'.$query);
     }
 }

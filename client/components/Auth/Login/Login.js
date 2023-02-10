@@ -7,6 +7,7 @@ import ErrorsClass from "@/sublimates/errors";
 import ServerClass from "@/sublimates/server";
 import ScrollToggleClass from "@/sublimates/scroll_toggle";
 import Form_serialize from "@/sublimates/form_serialize";
+import {useRouter} from "next/router";
 
 const input = new InputClass();
 const validator = new ValidatorClass();
@@ -28,10 +29,14 @@ const Login = (props) => {
         let data = serialize.serialize_form(e);
         server.login(data, (err)=>{console.log(err);});
     };
-    useEffect(() => {
+    const router = useRouter();
 
-        server.with_token();
-    }, []);
+    useEffect(() => {
+        if(!router.isReady) return;
+        const query = router.query;
+        console.log((query));
+        window.history.replaceState(null, '', '/auth')
+    }, [router.isReady, router.query]);
 
     return (
         <>
