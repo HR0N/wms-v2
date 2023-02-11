@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import React from "react";
+import React, {useEffect} from "react";
 import styles from "./../styles/Home.module.scss"
 import Parallax_scenery from "@/components/Frames/Parallax-scenery/Parallax_scenery";
 import Choose_site_type from "@/components/Frames/Choose-site-type/Choose_site_type";
@@ -19,6 +19,8 @@ import {Header} from "@/components/Header/Header";
 };*/
 
 export default function Home() {
+
+
   return (
     <>
       <Head>

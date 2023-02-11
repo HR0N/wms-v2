@@ -2,6 +2,7 @@ import React, {useEffect, useRef, useState} from "react";
 import ss from "./Header.module.scss"
 import Link from "next/link";
 import $ from "jquery";
+import process from "next/dist/build/webpack/loaders/resolve-url-loader/lib/postcss";
 
 const isMobile = () => window.matchMedia('only screen and (max-width: 426px)').matches;
 
@@ -26,34 +27,60 @@ export const Header = ()=>{
     useEffect(() => {
         setMobile(isMobile());
 
-        if(!isMobile()){
-            window.addEventListener('scroll', () => {handleScroll(header)});
-        }
+        if(!isMobile()){window.addEventListener('scroll', () => {handleScroll(header)});}
 
-        let href = window.location.href;
-        href = href.slice(0, -1);
-        let origin = window.location.origin;
-        let delay = 2000;
-        if(href !== origin){delay = 1;}
-
-        setTimeout(() => {$(header.current).css({'opacity':'1'})}, delay);
         return window.removeEventListener('scroll', () => {handleScroll(header)});
     }, []);
 
+     /*
+     |--------------------------------------------------------------------------
+     | Toggle auth link
+     |--------------------------------------------------------------------------
+     |
+     | U need to enter the password to show it.
+     |
+     */
+     let chronology = [];
+     const auth = useRef(null);
+
+     const toggle_auth_link = e => {
+         chronology.push(e.key);
+         chronology.length > 5 ? chronology.shift() : false;
+         let prompt_res = null;
+         if(chronology.join('').toLowerCase() === process.env.NEXT_PUBLIC_AUTH_PASSWORD || chronology.join('').toLowerCase() === process.env.NEXT_PUBLIC_AUTH_PASSWORD2){
+             if(prompt('Enter the password') === 'password'){
+                 $(auth.current).css({'display':'inherit'});
+             }
+         }else{
+             // $(auth.current).css({'display':'none'});
+         }
+     };
+    /*useEffect(() => {
+        window.addEventListener("keydown", e => {toggle_auth_link(e)});
+        return window.removeEventListener("keydown", e => {toggle_auth_link(e)});
+    }, []);*/
+
     return  (
         <>
-            <header className={`${ss.header} ${mobile ? (showMenu ? '' : ss.toggle_menu) : false}`} ref={header}>
-                <nav>
-                    <Link href={'/'}><div className={ss.nav_item}>Home</div></Link>
-                    <Link href={'#'}><div className={ss.nav_item}>Another link</div></Link>
-                    <Link href={'auth'}><div className={ss.nav_item}>Auth</div></Link>
-                </nav>
-                {mobile && showMenu ?
-                    <i onClick={() => {setShowMenu(!showMenu)}}
-                       className={`fa-solid fa-xmark ${ss.header_i}`}> </i> : false}
-            </header>
-            {mobile && !showMenu ? <i onClick={() => {setShowMenu(!showMenu)}}
-                                      style={{'zIndex': 2}} className={`fa-solid fa-bars ${ss.header_i}`}> </i> : false}
+            <div className={ss.header_wrapper}>
+                <header className={`${ss.header} ${showMenu ? ss.toggle_menu : ''}`} ref={header}>
+                    <nav>
+                        <div className={ss.col_1}>
+                            <Link href={'/'}><div className={ss.nav_item}>Home</div></Link>
+                            <Link href={'#'}><div className={ss.nav_item}>Link</div></Link>
+                        </div>
+                        <div className={ss.col_2}>
+                            <Link href={'admin_panel'}><div className={ss.nav_item}>Admin panel</div></Link>
+                            <Link href={'auth'} className={ss.auth} ref={auth}><div className={`${ss.nav_item}`}>Auth</div></Link>
+                        </div>
+                    </nav>
+                    {mobile && showMenu ?
+                        <i onClick={() => {setShowMenu(!showMenu)}}
+                           className={`fa-solid fa-xmark ${ss.header_i}`}> </i> : false}
+                </header>
+                {mobile && !showMenu ? <i onClick={() => {setShowMenu(!showMenu)}}
+                                          style={{'zIndex': 2}} className={`fa-solid fa-bars ${ss.header_i}`}> </i> : false}
+            </div>
         </>
     );
 };
