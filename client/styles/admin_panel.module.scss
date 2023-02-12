@@ -13,6 +13,7 @@
 
 @media screen and (max-width: 426px) {
   .admin_panel{
+    grid-template-columns: 1fr;
     padding-top: 30px;
   }
 }

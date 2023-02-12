@@ -3,8 +3,10 @@ import ss from "./Header.module.scss"
 import Link from "next/link";
 import $ from "jquery";
 import process from "next/dist/build/webpack/loaders/resolve-url-loader/lib/postcss";
+import IsMobile from "@/sublimates/isMobile";
 
-const isMobile = () => window.matchMedia('only screen and (max-width: 426px)').matches;
+const IsMobileClass = new IsMobile();
+// const isMobile = () => window.matchMedia('only screen and (max-width: 426px)').matches;
 
 export const Header = ()=>{
 
@@ -25,9 +27,9 @@ export const Header = ()=>{
 
 
     useEffect(() => {
-        setMobile(isMobile());
+        setMobile(IsMobileClass.mob426px());
 
-        if(!isMobile()){window.addEventListener('scroll', () => {handleScroll(header)});}
+        if(!IsMobileClass.mob426px()){window.addEventListener('scroll', () => {handleScroll(header)});}
 
         return window.removeEventListener('scroll', () => {handleScroll(header)});
     }, []);
@@ -78,8 +80,12 @@ export const Header = ()=>{
                         <i onClick={() => {setShowMenu(!showMenu)}}
                            className={`fa-solid fa-xmark ${ss.header_i}`}> </i> : false}
                 </header>
+
+
                 {mobile && !showMenu ? <i onClick={() => {setShowMenu(!showMenu)}}
-                                          style={{'zIndex': 2}} className={`fa-solid fa-bars ${ss.header_i}`}> </i> : false}
+                                          style={{'zIndex': 2}} className={`fa-solid fa-bars ${ss.header_i} ${ss.bars_btn}`}> </i> : false}
+
+
             </div>
         </>
     );

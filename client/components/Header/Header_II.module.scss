@@ -80,7 +80,7 @@
 }
 .toggle_menu{
   left: 0 !important;
-  background-color: rgba(45, 45, 45, 0.9) !important;
+  background-color: rgba(45, 45, 45, 0.98) !important;
 }
 
 .header_fixed{
@@ -102,6 +102,9 @@
   }
 }
 
+.bars_btn{
+  display: none;
+}
 @media screen and (max-width: 426px) {
   .header{
     position: fixed;
@@ -139,5 +142,8 @@
         justify-self: stretch;
       }
     }
+  }
+  .bars_btn{
+    display: block;
   }
 }

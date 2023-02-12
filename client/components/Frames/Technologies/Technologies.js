@@ -9,9 +9,11 @@ const Technologies = () => {
     const row3 = useRef(null);
 
     const handleScroll =  () => {
-        let distance = row2.current.getBoundingClientRect();
+        let distance = null;
+        try{distance = row2.current.getBoundingClientRect();}catch{}
+
         // console.log(distance.y);
-        if(distance.y < 800 && distance.y > 50){
+        if(distance != null && distance.y < 800 && distance.y > 50){
             let dis = distance.y - 325;
             let screen = Math.round(window.innerWidth / 300);
             let topDis = Math.round((dis / 325) * 100 / screen);
