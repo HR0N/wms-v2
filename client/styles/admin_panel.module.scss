@@ -1,0 +1,18 @@
+.admin_panel{
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 20px;
+
+  padding-top: 100px;
+}
+.main{
+  min-height: 100vh;
+  background-color: whitesmoke;
+  border-radius: .2rem;
+}
+
+@media screen and (max-width: 426px) {
+  .admin_panel{
+    padding-top: 30px;
+  }
+}

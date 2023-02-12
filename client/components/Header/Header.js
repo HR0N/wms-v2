@@ -71,7 +71,7 @@ export const Header = ()=>{
                         </div>
                         <div className={ss.col_2}>
                             <Link href={'admin_panel'}><div className={ss.nav_item}>Admin panel</div></Link>
-                            <Link href={'auth'} className={ss.auth} ref={auth}><div className={`${ss.nav_item}`}>Auth</div></Link>
+                            <Link href={'auth'} className={ss.auth}><div className={`${ss.nav_item}`}>Auth</div></Link>
                         </div>
                     </nav>
                     {mobile && showMenu ?

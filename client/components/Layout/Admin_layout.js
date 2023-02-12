@@ -1,13 +1,13 @@
 import React from "react";
-import {Header} from "../Header/Header";
 import {Footer} from "../Footer/Footer";
 import ss from "./layout.module.scss"
+import {Header_II} from "@/components/Header/Header_II";
 
 
-export const Layout = ({children}) => {
+export const Admin_layout = ({children}) => {
     return (
         <>
-            <Header/>
+            <Header_II/>
                 <div className={ss.layout}>
                     {children}
                 </div>
@@ -16,12 +16,12 @@ export const Layout = ({children}) => {
     );
 };
 
-export const withLayout = (Component) => {
+export const withAdmin_layout = (Component) => {
     return function (props) {
         return (
-            <Layout>
+            <Admin_layout>
                 <Component {...props}/>
-            </Layout>
+            </Admin_layout>
         );
     }
 };
