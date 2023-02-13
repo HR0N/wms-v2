@@ -11,7 +11,7 @@ export default class Form_serialize {
         });
     }
 
-    serialize_form(event){  // inputs must have name
+    get_values(event){  // inputs must have name
         let data = {};
         let form = event.target;
         let input = $(form).find('input');
@@ -25,8 +25,8 @@ export default class Form_serialize {
         return data;
     }
 
-    serialize_sterilize(event){
-        let data = this.serialize_form(event);
+    trim_values(event){
+        let data = this.get_values(event);
         Object.keys(data).map((v, k)=>{
             data[v] = validator.escape(validator.trim(data[v]));
         });

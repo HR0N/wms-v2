@@ -1,0 +1,111 @@
+.client_base {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, auto));
+
+  gap: 50px;
+  padding: 20px;
+}
+@media screen and (max-width: 769px) {
+    .client_base{
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      justify-content: center;
+      padding: 0;
+    }
+}
+.crud{
+  display: grid;
+
+  height: min-content;
+  padding: 12px;
+  background-color: #eaeaea;
+  border-radius: .2rem;
+  box-shadow: 1px 1px 3px #c7c7c7;
+}
+.title{
+  font-weight: bold;
+  font-family: var(--montserrat);
+  color: var(--grey);
+}
+.form {
+  display: grid;
+  grid-template-columns: 1fr;
+
+  gap: 20px;
+  margin-top: 20px;
+  label{
+    position: relative;
+    color: var(--grey-v2);
+    font-family: var(--roboto);
+  }
+  .loader{
+    position: absolute;
+    bottom: 3px;
+    right: 2px;
+    height: 30px;
+    width: 30px;
+  }
+  .success, .fail{
+    position: absolute;
+    bottom: 3px;
+    right: 6px;
+
+    font-size: 1.6em;
+  }
+  .success{
+    color: var(--green-v3);
+  }
+  .fail{
+    color: var(--red-v6);
+  }
+  input, select, textarea{
+    margin-top: 4px;
+  }
+  ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #cacaca;
+    opacity: 1; /* Firefox */
+  }
+
+  :-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #cacaca;
+  }
+
+  ::-ms-input-placeholder { /* Microsoft Edge */
+    color: #cacaca;
+  }
+  .buttons{
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    justify-content: flex-end;
+
+    gap: 10px;
+  }
+}
+
+.create{
+}
+.update{
+  grid-template-columns: repeat(2, 1fr);
+
+  .buttons{
+    grid-column: span 2;
+  }
+  .comment{
+    grid-column: span 2;
+    textarea{
+      resize: none;
+      height: 120px;
+    }
+  }
+}
+@media screen and (max-width: 769px) {
+  .update{
+    grid-template-columns: 1fr;
+
+    .buttons{
+      grid-column: auto;
+    }
+    .comment{
+      grid-column: auto;
+    }
+  }
+}

@@ -37,7 +37,7 @@ const Registration = (props) => {
     const submit = (e) => {
         e.preventDefault();
         if(check_validity()){
-            let data = serialize.serialize_sterilize(e);
+            let data = serialize.trim_values(e);
             server.registration(data);
         }
     };

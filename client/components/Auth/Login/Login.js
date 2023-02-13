@@ -26,7 +26,7 @@ const Login = (props) => {
 
     const submit = (e) => {
         e.preventDefault();
-        let data = serialize.serialize_form(e);
+        let data = serialize.trim_values(e);
         server.login(data, (err)=>{console.log(err);});
     };
     const router = useRouter();

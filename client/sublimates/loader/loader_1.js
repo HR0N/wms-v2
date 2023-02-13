@@ -1,7 +1,7 @@
 import React from 'react';
-// import ss from './loader.scss';
+// import ss from './loader_1.scss';
 
-const Loader = props => {
+const Loader_1 = props => {
     return(
         <div className="Loader-wrapper">
             <div className='lds-ellipsis'>
@@ -14,4 +14,4 @@ const Loader = props => {
     );
 };
 
-export default Loader;
+export default Loader_1;

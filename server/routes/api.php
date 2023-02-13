@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ClientBaseController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\VerifyEmailController;
 use Illuminate\Http\Request;
@@ -22,6 +23,12 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::get('/mail', [VerifyEmailController::class, 'contact']);
 
 
+Route::post('/get_contact_cards', [ClientBaseController::class, 'index']);
+Route::post('/create_contact_card', [ClientBaseController::class, 'store']);
+Route::post('/get_contact_card/{id}', [ClientBaseController::class, 'show']);
+Route::post('/update_contact_card/{id}', [ClientBaseController::class, 'update']);
+Route::post('/destroy_contact_card/{id}', [ClientBaseController::class, 'destroy']);
+Route::post('/search_contact_card/{phone}', [ClientBaseController::class, 'search']);
 
 Route::group(['middleware' => 'auth:sanctum'], function (){
     Route::get('/test', [Controller::class, 'index']);

@@ -5,7 +5,7 @@ import ss from "@/styles/admin_panel.module.scss"
 import {withAdmin_layout} from "@/components/Layout/Admin_layout";
 
 
-const Admin_panel = () => {
+const Index = () => {
     return (
         <>
             <Head>
@@ -14,11 +14,11 @@ const Admin_panel = () => {
             <div className={ss.admin_panel}>
                 <Aside/>
                 <div className={ss.main}>
-                    <p>Admin panel main content</p>
+                    empty
                 </div>
             </div>
         </>
     );
 };
 
-export default withAdmin_layout(Admin_panel);
+export default withAdmin_layout(Index);

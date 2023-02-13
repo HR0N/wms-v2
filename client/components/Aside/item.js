@@ -5,15 +5,14 @@ import $ from 'jquery';
 
 const Item = ({cn, submenu = false, children, height = 25, show = false}) => {
 
-    const [forceRender, setForceRender] = useState(false);
     const ul = useRef(null);
     let show2 = show;
-    let margin = 5;
+    let margin_top = 6;
 
 
     useEffect(() => {
         submenu_toggle();
-        document.body.style.cssText = `--asideLiMargin: ${margin}px`;
+        document.body.style.cssText = `--asideLiMargin: ${margin_top}px`;
     }, []);
 
 
@@ -22,15 +21,22 @@ const Item = ({cn, submenu = false, children, height = 25, show = false}) => {
         let submenu_length = null;
         let padding_top = null;
 
-        if(submenu){
+
+        if (submenu) {
             submenu_length = submenu.props.children.length;
-            height = ($(ul.current).find('li').height() + margin);
+            if(!submenu_length){submenu_length  = 1;}
+            height = ($(ul.current).find('li').height() + margin_top);
+            margin_top = +$(ul.current).find('li').css('margin').split(' ')[0].replace('px', '');
             padding_top = +$(ul.current).find('li').css('padding').split(' ')[0].replace('px', '');
         }
-        height+= padding_top*2;
+        height += padding_top * 2;
 
-        if(show2){qUl.css({'max-height': `${height * submenu_length + margin}px`})}
-        else{qUl.css({'max-height': `0`})}
+
+        if (show2) {
+            qUl.css({'max-height': `${height * submenu_length + margin_top}px`})
+        } else {
+            qUl.css({'max-height': `0`})
+        }
     };
 
 
@@ -42,8 +48,12 @@ const Item = ({cn, submenu = false, children, height = 25, show = false}) => {
     return (
         <>
             <li
-                onClick={() => {clickHandler()}}
-                className={cn}>{children}</li>
+                onClick={() => {
+                    clickHandler()
+                }}
+                className={cn}>{children}
+            </li>
+
 
             {submenu && <ul className={`${ss.sub_list}`} ref={ul}>{submenu}</ul>}
         </>

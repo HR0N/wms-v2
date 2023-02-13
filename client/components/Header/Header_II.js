@@ -29,8 +29,8 @@ export const Header_II = ()=>{
                             <Link href={'#'}><div className={ss.nav_item}>Link</div></Link>
                         </div>
                         <div className={ss.col_2}>
-                            <Link href={'admin_panel'}><div className={ss.nav_item}>Admin panel</div></Link>
-                            <Link href={'auth'} className={ss.auth}><div className={`${ss.nav_item}`}>Auth</div></Link>
+                            <Link href={'/admin_panel'}><div className={ss.nav_item}>Admin panel</div></Link>
+                            <Link href={'/auth'} className={ss.auth}><div className={`${ss.nav_item}`}>Auth</div></Link>
                         </div>
                     </nav>
                     {mobile && showMenu ?

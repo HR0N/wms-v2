@@ -1,4 +1,4 @@
-.aside{
+.aside {
   display: grid;
   grid-template-rows: min-content;
   justify-content: center;
@@ -8,19 +8,20 @@
   //background-color: rgba(191, 208, 245, 0.1);
   //outline: solid 1px lightgrey;
   border-radius: .2rem;
-  padding: 10px;
 
   color: var(--black-v2);
   font-size: 18px;
 
   --aside-active: #9263ff;
-  --margin: var(--asideLiMargin);
-  ul{
+  --margin: 6px;
+
+  ul {
     list-style: none;
     margin: 0;
     padding: 0;
   }
-  li{
+
+  li {
     position: relative;
     display: grid;
     grid-auto-flow: row;
@@ -31,10 +32,11 @@
     margin-top: var(--margin);
 
     user-select: none;
-    &:hover{
+    &:hover {
       color: var(--aside-active);
     }
-    i{
+
+    i {
       font-size: 16px;
       align-self: center;
       color: dimgrey;
@@ -42,47 +44,52 @@
     }
   }
 }
+
 @media screen and (max-width: 426px) {
-  .aside{
+  .aside {
     display: grid;
-    grid-template-rows: min-content;
+    grid-template-columns: 1fr;
     justify-content: left;
     align-self: flex-start;
     max-width: 100%;
 
     font-size: 22px;
+    margin-top: 20px;
   }
-  .item{
+  .item {
     background-color: whitesmoke;
-    padding: 6px;
+    padding: 10px;
+    box-shadow: 1px 1px 3px lightgrey;
   }
-  .sub_item{
+  .sub_item {
     padding: 6px 6px 6px 23px;
   }
 }
-.list, .sub_list{
+
+.list, .sub_list {
   display: grid;
   grid-auto-flow: row;
-
 }
-.list{
-}
-.item{
 
+.list > li:nth-child(1){margin-top: 0;}
+
+.item {
   cursor: pointer;
-  div{
+  div {
     display: grid;
     grid-template-columns: 18px auto;
     column-gap: 5px;
   }
 }
-.sub_list{
+
+.sub_list {
   position: relative;
   overflow: hidden;
-  max-height: 0;
+  //max-height: 0;
 
   transition: all .5s;
-  &:after{
+
+  &:after {
     display: block;
     position: absolute;
     top: calc(var(--margin) - 1px);
@@ -94,18 +101,21 @@
     background-color: lightgrey;
   }
 }
-.sub_item{
+
+.sub_item {
   padding-left: 23px;
   font-size: .95em;
   cursor: pointer;
-  &:nth-last-child(1){
+
+  &:nth-last-child(1) {
     //margin-bottom: var(--margin);
   }
 }
 
-.active{
+.active {
   color: var(--aside-active);
-  i{
+
+  i {
     color: var(--aside-active) !important;
   }
 }

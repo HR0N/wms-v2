@@ -16,12 +16,12 @@ const Aside = () => {
                 <ul className={ss.list}>
 
 
-                    <Item cn={`${ss.item} ${active_class('admin_panel')}`}
-                          show={true}
+                    <Item cn={`${ss.item} ${active_class('client_base_page')}`}
+                          show={active('client_base_page')}
                           submenu={
                               <>
-                                  <li className={ss.sub_item}>Sub item 1</li>
-                                  <li className={ss.sub_item}>Sub item 2</li>
+                                <Link href={'admin_panel/client_base_page'}><li className={`${ss.sub_item} ${active_class('client_base_page')}`}>crud</li></Link>
+                                <Link href={'admin_panel/categories'}><li className={`${ss.sub_item} ${active_class('categories')}`}>Categories</li></Link>
                               </>
                           }
                     >
