@@ -8,14 +8,6 @@ import Filter from "@/components/Admin_panel/Client_base/Filter/Filter";
 import Categories from "@/components/Admin_panel/Categories/Categories";
 
 
-const statuses = {
-    none: 'Ніякого',
-    work: 'Працюємо',
-    worked_well_before: 'Працювали, добре',
-    worked_before_bad: 'Працювали, погано',
-    potential_client: 'Потенційний клієнт',
-    inadequate: 'Неадекватний'
-};
 let categories = {
     kabanchik: 'Kaban parsing',
     first: 'first',
@@ -42,16 +34,11 @@ const client_base_page = () => {
 
                 <div className={`${ss.aside}`}>
                     <Aside/>
-                    <Filter
-                        statuses={statuses}
-                        categories={categories}
-                    />
                 </div>
 
 
                 <div className={ss.main}>
-                    <Client_base
-                        statuses={statuses}
+                    <Categories
                         categories={categories}
                     />
                 </div>

@@ -77,6 +77,8 @@ class ServerClass {
      | destroy_contact_card -   require id
      | search_contact_card  -   require phone
      |
+     |
+     |
      */
     get_contact_cards(callbackError = ()=>{}, callbackSuccess = ()=>{}){
         this.axios.get('sanctum/csrf-cookie')
@@ -137,6 +139,28 @@ class ServerClass {
         this.axios.get('sanctum/csrf-cookie')
             .then(res => {
                 this.axios.post(`api/search_contact_card/${phone}`)
+                    .catch((err)=>{return callbackError(err);})
+                    .then(res =>{
+                        console.log(res);
+                        callbackSuccess(res);
+                    });
+            });
+    }
+    store_client_base_category(data, callbackError = ()=>{}, callbackSuccess = ()=>{}){
+        this.axios.get('sanctum/csrf-cookie')
+            .then(res => {
+                this.axios.post('api/create_client_base_category', data)
+                    .catch((err)=>{return callbackError(err);})
+                    .then(res =>{
+                        console.log(res);
+                        callbackSuccess(res);
+                    });
+            });
+    }
+    destroy_client_base_category(id, callbackError = ()=>{}, callbackSuccess = ()=>{}){
+        this.axios.get('sanctum/csrf-cookie')
+            .then(res => {
+                this.axios.post(`api/delete_client_base_category/${id}`)
                     .catch((err)=>{return callbackError(err);})
                     .then(res =>{
                         console.log(res);

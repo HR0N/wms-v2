@@ -24,19 +24,24 @@ class Controller extends BaseController
     }
 
     public function redirect_post() {
-        $endpoint = 'https://wms.evilcode.space/auth';
+        $endpoint = 'https://wms.evilcode.space';
+//        $endpoint = 'https://wms.evilcode.space/auth';
         $data = [];
 
         $user = Auth::user();
         $data['name'] = $user->name;
+        $data['role'] = $user->role;
         $data['token'] = $user->createToken('myapptoken')->plainTextToken;
 
 
         $json = implode($data);
         $query = http_build_query($data);
 
-        echo http_build_query($data);
+        echo '<pre>';
+        echo var_dump($query);
+        echo '</pre>';
 
+//        return view('welcome');
         return redirect()->to($endpoint.'?'.$query);
     }
 }

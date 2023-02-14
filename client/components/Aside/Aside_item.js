@@ -3,7 +3,7 @@ import ss from "@/components/Aside/Aside.module.scss";
 import $ from 'jquery';
 
 
-const Item = ({cn, submenu = false, children, height = 25, show = false}) => {
+const Aside_item = ({cn, submenu = false, children, height = 25, show = false}) => {
 
     const ul = useRef(null);
     let show2 = show;
@@ -60,4 +60,4 @@ const Item = ({cn, submenu = false, children, height = 25, show = false}) => {
     );
 };
 
-export default Item;
+export default Aside_item;

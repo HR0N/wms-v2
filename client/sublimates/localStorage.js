@@ -15,12 +15,13 @@ class LocalStorageClass {
     |
     */
     save_user(res){
-        this.set('ref-selector', res.data);
+        this.set('ref-selector', res);
     }
 
     // get value by key
     get(key){
-        return JSON.parse(this.ls.getItem(key));
+        let res = this.ls ? this.ls.getItem(key) : false;
+        return res && res.name ? JSON.parse(res) : false;
     }
 
     // set value by key

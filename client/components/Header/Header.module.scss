@@ -44,6 +44,7 @@
       text-align: center;
       font-family: var(--roboto);
       white-space: nowrap;
+      cursor: pointer;
       &:after{
         display: block;
         position: absolute;

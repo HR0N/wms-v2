@@ -4,11 +4,13 @@ import Link from "next/link";
 import $ from "jquery";
 import process from "next/dist/build/webpack/loaders/resolve-url-loader/lib/postcss";
 import IsMobile from "@/sublimates/isMobile";
+import AuthClass from "@/sublimates/auth";
+import {useRouter} from "next/router";
 
 const IsMobileClass = new IsMobile();
-// const isMobile = () => window.matchMedia('only screen and (max-width: 426px)').matches;
 
 export const Header = ()=>{
+    const auth = new AuthClass();
 
     const [mobile, setMobile] = useState(null);
     const [showMenu, setShowMenu] = useState(false);
@@ -29,38 +31,11 @@ export const Header = ()=>{
     useEffect(() => {
         setMobile(IsMobileClass.mob426px());
 
+
         if(!IsMobileClass.mob426px()){window.addEventListener('scroll', () => {handleScroll(header)});}
 
         return window.removeEventListener('scroll', () => {handleScroll(header)});
     }, []);
-
-     /*
-     |--------------------------------------------------------------------------
-     | Toggle auth link
-     |--------------------------------------------------------------------------
-     |
-     | U need to enter the password to show it.
-     |
-     */
-     let chronology = [];
-     const auth = useRef(null);
-
-     const toggle_auth_link = e => {
-         chronology.push(e.key);
-         chronology.length > 5 ? chronology.shift() : false;
-         let prompt_res = null;
-         if(chronology.join('').toLowerCase() === process.env.NEXT_PUBLIC_AUTH_PASSWORD || chronology.join('').toLowerCase() === process.env.NEXT_PUBLIC_AUTH_PASSWORD2){
-             if(prompt('Enter the password') === 'password'){
-                 $(auth.current).css({'display':'inherit'});
-             }
-         }else{
-             // $(auth.current).css({'display':'none'});
-         }
-     };
-    /*useEffect(() => {
-        window.addEventListener("keydown", e => {toggle_auth_link(e)});
-        return window.removeEventListener("keydown", e => {toggle_auth_link(e)});
-    }, []);*/
 
     return  (
         <>
@@ -72,8 +47,8 @@ export const Header = ()=>{
                             <Link href={'#'}><div className={ss.nav_item}>Link</div></Link>
                         </div>
                         <div className={ss.col_2}>
-                            <Link href={'admin_panel'}><div className={ss.nav_item}>Admin panel</div></Link>
-                            <Link href={'auth'} className={ss.auth}><div className={`${ss.nav_item}`}>Auth</div></Link>
+                            {1 && <Link href={'admin_panel'}><div className={ss.nav_item}>Admin panel</div></Link>}
+                            <Link href={`https://wms.b.evilcode.space/login`} className={ss.auth}><div className={`${ss.nav_item}`}>Auth</div></Link>
                         </div>
                     </nav>
                     {mobile && showMenu ?

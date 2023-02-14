@@ -7,6 +7,8 @@ import Technologies from "@/components/Frames/Technologies/Technologies";
 import Time_trap_home from "@/components/Frames/Time-trap-home/Time_trap_home";
 import {Footer} from "@/components/Footer/Footer";
 import {Header} from "@/components/Header/Header";
+import {useRouter} from "next/router";
+import AuthClass from "@/sublimates/auth";
 
 
 /*export const getStaticProps = async () => {
@@ -18,8 +20,15 @@ import {Header} from "@/components/Header/Header";
     };
 };*/
 
-export default function Home() {
 
+export default function Home() {
+    const router = useRouter();
+    const auth = new AuthClass();
+
+
+    useEffect(() => {
+        auth.user_fresh();
+    }, [router.isReady, router.query]);
 
   return (
     <>

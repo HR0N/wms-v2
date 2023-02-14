@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\VerifyEmailController;
 use App\Providers\RouteServiceProvider;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,9 +27,17 @@ Route::get('/home', [Controller::class, 'redirect_post']);
 
 
 
-Route::middleware('auth:sanctum')->post('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    $user = Auth::user();
+
+    return dd($user->createToken('myapptoken')->plainTextToken);
 });
+
+Route::group(['middleware' => 'admin'], function (){
+    Route::get('/test', [Controller::class, 'index']);
+
+});
+
 
 // Verify email
 Route::get('/email/verify/{id}/{hash}', [VerifyEmailController::class, '__invoke'])

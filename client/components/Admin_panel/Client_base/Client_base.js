@@ -25,18 +25,21 @@ const submitHandler = e => {
 
 const phone_split = phone => phone.replaceAll(' ', '').replace(/(\d{3})(\d{3})(\d{2})(\d{2})/, '$1 $2 $3 $4');
 
+const render_statuses = obj => Object.keys(obj).map((v, k) => <option key={k} value={v}>{obj[v]}</option>);
 
-const Client_base = () => {
+const Client_base = ({statuses}) => {
+
 
     const [data, setData] = useState([
         {
+            id: '0',
             phone: '0636056649',
-            name: 'name',
-            occupation: 'occupation',
-            status: 'status',
-            comment: 'comment',
+            name: 'Kovalenko Evben',
+            occupation: 'programming',
+            status: 'work',
+            comment: 'Work with next, laravel',
             category: 'category',
-            date: 'date',
+            date: '2023-02-14',
         }
         ]);
     const [search, setSearch] = useState('not');
@@ -94,7 +97,7 @@ const Client_base = () => {
 
 
                 <div className={`${ss.crud}`}>
-                    <div className={ss.title}>Contact card</div>
+                    <div className={ss.title}>Контактна картка</div>
                     <form className={`${ss.form} ${ss.update}`}
                           onSubmit={e => {submitHandler(e)}}
                     >
@@ -112,7 +115,7 @@ const Client_base = () => {
 
 
                         <label>ПІБ
-                            <input type="text" className={`form-control`} name={`name`} placeholder={`John Doe`}
+                            <input type="text" className={`form-control`} name={`name`} placeholder={`Бандера Степан`}
                                    value={name.val}
                                    onChange={e => {name.onChange(e);}}
                             />
@@ -121,7 +124,7 @@ const Client_base = () => {
 
                         <label>Рід діяльності
                             <input type="text" className={`form-control`} name={`occupation`}
-                                   placeholder={`Trade in baboon organs`}
+                                   placeholder={`Різанина свинособак`}
                                    value={occupation.val}
                                    onChange={e => {occupation.onChange(e);}}
                             />
@@ -133,12 +136,13 @@ const Client_base = () => {
                                     value={status.val}
                                     onChange={e => {status.onChange(e);}}
                             >
-                                <option value="none">Ніякого</option>
+                                {statuses && render_statuses(statuses)}
+                                {/*<option value="none">Ніякого</option>
                                 <option value="work">Працюємо</option>
                                 <option value="worked_well_before">Працювали раніше, добре</option>
                                 <option value="worked_before_bad">Працювали раніше, погано</option>
                                 <option value="potential_client">Потенційний клієнт</option>
-                                <option value="shit_piece">Гавни шматок</option>
+                                <option value="inadequate">Неадекватний</option>*/}
                             </select>
                         </label>
 
@@ -178,6 +182,11 @@ const Client_base = () => {
 
 
                     </form>
+                </div>
+
+
+                <div className={`${ss.crud}`}>
+                    <div className={ss.title}>Create</div>
                 </div>
 
 

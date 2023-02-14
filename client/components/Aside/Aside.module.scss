@@ -1,7 +1,7 @@
 .aside {
   display: grid;
   grid-template-rows: min-content;
-  justify-content: center;
+  justify-content: flex-start;
   align-self: flex-start;
   max-width: 200px;
 
@@ -12,7 +12,6 @@
   color: var(--black-v2);
   font-size: 18px;
 
-  --aside-active: #9263ff;
   --margin: 6px;
 
   ul {
@@ -49,7 +48,6 @@
   .aside {
     display: grid;
     grid-template-columns: 1fr;
-    justify-content: left;
     align-self: flex-start;
     max-width: 100%;
 
@@ -106,6 +104,7 @@
   padding-left: 23px;
   font-size: .95em;
   cursor: pointer;
+  //padding: 3px 0 3px 23px;
 
   &:nth-last-child(1) {
     //margin-bottom: var(--margin);
