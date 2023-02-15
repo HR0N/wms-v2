@@ -2,7 +2,6 @@ import React from "react";
 import ss from "./Registration.module.scss"
 import InputClass from "@/sublimates/input";
 import ValidatorClass from "@/sublimates/validator";
-import LocalStorageClass from "@/sublimates/localStorage";
 import ErrorsClass from "@/sublimates/errors";
 import ServerClass from "@/sublimates/server";
 import ScrollToggleClass from "@/sublimates/scroll_toggle";
@@ -13,7 +12,6 @@ const validator = new ValidatorClass();
 const errors = new ErrorsClass();
 const scroll = new ScrollToggleClass();
 const server = new ServerClass();
-const localStorage = new LocalStorageClass();
 const serialize = new Form_serialize();
 
 

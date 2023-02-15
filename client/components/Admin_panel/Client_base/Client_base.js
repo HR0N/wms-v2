@@ -4,6 +4,7 @@ import Form_serialize from "@/sublimates/form_serialize";
 import ServerClass from "@/sublimates/server";
 import InputClass from "@/sublimates/input";
 import Loader_2 from "@/sublimates/loader/loader_2";
+import $ from 'jquery'
 
 const serialize = new Form_serialize();
 const server = new ServerClass();
@@ -12,6 +13,7 @@ const input = new InputClass();
 
 const submitHandler = e => {
     e.preventDefault();
+
 
     let submit_type = e.nativeEvent.submitter.value;
     let data = serialize.trim_values(e);
@@ -27,8 +29,31 @@ const phone_split = phone => phone.replaceAll(' ', '').replace(/(\d{3})(\d{3})(\
 
 const render_statuses = obj => Object.keys(obj).map((v, k) => <option key={k} value={v}>{obj[v]}</option>);
 
+
+let categories = ['cat 1', 'cat 10', 'kabanchik parse', 'empty cojones'];
+
+
+
 const Client_base = ({statuses}) => {
 
+    const [update, forceUpdate] = useState(false);
+
+
+    const render_user_categories = () => {
+        return categories.map((v, k)=>{
+            return <div key={k} className={`${ss.category}`}>
+                {v}<div className={`${ss.delete}`} onClick={e => {delete_category(e)}}><i className="fa-solid fa-circle-xmark"></i></div>
+            </div>
+        });
+    };
+    const delete_category = e => {
+        let parent = $(e.currentTarget).parent();
+        let text = parent.text();
+        categories = categories.filter(cat => cat !== text);
+        console.log(categories);
+        // $(parent).remove();
+        forceUpdate(!update);
+    };
 
     const [data, setData] = useState([
         {
@@ -156,6 +181,13 @@ const Client_base = ({statuses}) => {
                         </label>
 
 
+                        {
+                            categories.length > 0 &&
+                            <div className={`${ss.categories}`}>
+                                {render_user_categories(categories)}
+                            </div>
+                        }
+
                         <label>Присвоєння категорій
                             <input type="text" className={`form-control`} name={`category`}
                                    value={category.val}
@@ -185,9 +217,9 @@ const Client_base = ({statuses}) => {
                 </div>
 
 
-                <div className={`${ss.crud}`}>
+               {/* <div className={`${ss.crud}`}>
                     <div className={ss.title}>Create</div>
-                </div>
+                </div>*/}
 
 
                 {/*<div className={`${ss.crud}`}>
