@@ -40,7 +40,7 @@ export const Header = ()=>{
         if(!IsMobileClass.mob426px()){window.addEventListener('scroll', () => {handleScroll(header)});}
 
         return window.removeEventListener('scroll', () => {handleScroll(header)});
-    }, []);
+    }, [isAdmin]);
 
     return  (
         <>

@@ -25,29 +25,27 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::get('/mail', [VerifyEmailController::class, 'contact']);
 
 
-Route::post('/get_contact_cards', [ClientBaseController::class, 'index']);
-Route::post('/create_contact_card', [ClientBaseController::class, 'store']);
-Route::post('/get_contact_card/{id}', [ClientBaseController::class, 'show']);
-Route::post('/update_contact_card/{id}', [ClientBaseController::class, 'update']);
-Route::post('/destroy_contact_card/{id}', [ClientBaseController::class, 'destroy']);
-Route::post('/search_contact_card/{phone}', [ClientBaseController::class, 'search']);
-Route::post('/create_client_base_category', [ClientBaseCategoriesController::class, 'store']);
-Route::post('/delete_client_base_category/{id}', [ClientBaseCategoriesController::class, 'destroy']);
 
-/*Route::group(['middleware' => 'admin'], function (){
-    Route::get('/test', [Controller::class, 'index']);
+//Route::get('/get_client_base_categories', [ClientBaseCategoriesController::class, 'index']);
+//Route::group(['middleware' => 'auth:sanctum', 'middleware' => 'admin'], function (){
 
-});*/
+
 Route::group(['middleware' => 'auth:sanctum', 'middleware' => 'admin'], function (){
     Route::get('/test', [Controller::class, 'index']);
 
+    Route::get('/get_contact_cards', [ClientBaseController::class, 'index']);
+    Route::post('/create_contact_card', [ClientBaseController::class, 'store']);
+    Route::get('/get_contact_card/{id}', [ClientBaseController::class, 'show']);
+    Route::get('/update_contact_card/{id}', [ClientBaseController::class, 'update']);
+    Route::get('/destroy_contact_card/{id}', [ClientBaseController::class, 'destroy']);
+    Route::get('/search_contact_card/{phone}', [ClientBaseController::class, 'search']);
+    Route::get('/get_client_base_categories', [ClientBaseCategoriesController::class, 'index']);
+    Route::post('/create_client_base_category', [ClientBaseCategoriesController::class, 'store']);
+    Route::get('/delete_client_base_category/{id}', [ClientBaseCategoriesController::class, 'destroy']);
+
 });
 
 
-
-Route::middleware('auth:sanctum')->post('/user', function (Request $request) {
-    return $request->user();
-});
 
 // Verify email
 Route::get('/email/verify/{id}/{hash}', [VerifyEmailController::class, '__invoke'])

@@ -15,6 +15,16 @@ class ClientBaseCategoriesController extends Controller
     public function index()
     {
         //
+        $yourToken = request()->bearerToken();
+        // Fetch the associated token Model
+        $token = \Laravel\Sanctum\PersonalAccessToken::findToken($yourToken);
+
+        // Get the assigned user
+        $user = $token->tokenable;
+
+//        return ClientBasesCategories::all();
+
+        return ClientBasesCategories::where('user', 'like', '%'.$user->id.'%')->get();
     }
 
     /**
@@ -25,8 +35,23 @@ class ClientBaseCategoriesController extends Controller
      */
     public function store(Request $request)
     {
+
+
+        $fields = $request->validate([
+            'category' => 'required|string|unique:client_bases_categories',
+        ]);
+
+        $yourToken = request()->bearerToken();
+        // Fetch the associated token Model
+        $token = \Laravel\Sanctum\PersonalAccessToken::findToken($yourToken);
+
+        // Get the assigned user
+        $user = $token->tokenable;
         //
-        return ClientBasesCategories::create($request->all());
+        $data = array_merge($request->all(), ['user' => $user->id]);
+        return ClientBasesCategories::create($data);
+
+//        return ClientBasesCategories::create($request->all());
     }
 
     /**

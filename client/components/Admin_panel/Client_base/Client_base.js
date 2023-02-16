@@ -27,20 +27,21 @@ const submitHandler = e => {
 
 const phone_split = phone => phone.replaceAll(' ', '').replace(/(\d{3})(\d{3})(\d{2})(\d{2})/, '$1 $2 $3 $4');
 
-const render_statuses = obj => Object.keys(obj).map((v, k) => <option key={k} value={v}>{obj[v]}</option>);
+const render_statuses = arr => arr.map((v, k) => <option key={k} value={v.id}>{v.category}</option>);
+
+const render_categories = arr => arr.map((v, k) => <option key={k} value={v.id}>{v.category}</option>);
+
+let user_categories = ['cat 1', 'cat 10', 'kabanchik parse', 'empty cojones'];
 
 
-let categories = ['cat 1', 'cat 10', 'kabanchik parse', 'empty cojones'];
 
-
-
-const Client_base = ({statuses}) => {
+const Client_base = ({statuses, clients, categories}) => {
 
     const [update, forceUpdate] = useState(false);
 
 
     const render_user_categories = () => {
-        return categories.map((v, k)=>{
+        return user_categories.map((v, k)=>{
             return <div key={k} className={`${ss.category}`}>
                 {v}<div className={`${ss.delete}`} onClick={e => {delete_category(e)}}><i className="fa-solid fa-circle-xmark"></i></div>
             </div>
@@ -112,7 +113,7 @@ const Client_base = ({statuses}) => {
 
 
     useEffect(() => {
-        // server.get_contact_cards(() => {}, (res) => {setData(res)});
+
     }, []);
 
 
@@ -149,7 +150,7 @@ const Client_base = ({statuses}) => {
 
                         <label>Рід діяльності
                             <input type="text" className={`form-control`} name={`occupation`}
-                                   placeholder={`Різанина свинособак`}
+                                   placeholder={`Поширення демократії`}
                                    value={occupation.val}
                                    onChange={e => {occupation.onChange(e);}}
                             />
@@ -182,17 +183,20 @@ const Client_base = ({statuses}) => {
 
 
                         {
-                            categories.length > 0 &&
+                            user_categories.length > 0 &&
                             <div className={`${ss.categories}`}>
                                 {render_user_categories(categories)}
                             </div>
                         }
 
                         <label>Присвоєння категорій
-                            <input type="text" className={`form-control`} name={`category`}
-                                   value={category.val}
-                                   onChange={e => {category.onChange(e);}}
-                            />
+                            <select className={`form-control`} name="categories"
+                                    value={category.val}
+                                    onChange={e => {category.onChange(e);}}
+                            >
+                                {categories && render_categories(categories)}
+                                <option> - - - - - - - - </option>
+                            </select>
                         </label>
 
 
@@ -217,9 +221,17 @@ const Client_base = ({statuses}) => {
                 </div>
 
 
-               {/* <div className={`${ss.crud}`}>
-                    <div className={ss.title}>Create</div>
-                </div>*/}
+                <div className={`${ss.crud}`}>
+                    <div className={ss.title}>База номерів</div>
+                    <div className={`${ss.phones}`}>
+                        <div className={`${ss.phone}`}>063 605 66 49</div>
+                        <div className={`${ss.phone}`}>063 605 66 49</div>
+                        <div className={`${ss.phone}`}>063 605 66 49</div>
+                        <div className={`${ss.phone}`}>063 605 66 49</div>
+                        <div className={`${ss.phone}`}>063 605 66 49</div>
+                        <div className={`${ss.phone}`}>063 605 66 49</div>
+                    </div>
+                </div>
 
 
                 {/*<div className={`${ss.crud}`}>

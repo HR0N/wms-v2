@@ -8,8 +8,8 @@ const Filter = ({statuses, categories}) => {
         <>
             <div className={ss.filter}>
 
-                <Filter_item filter_list={statuses}>Статус</Filter_item>
-                <Filter_item filter_list={categories}>Категорії</Filter_item>
+                {statuses && <Filter_item filter_list={statuses}>Статус</Filter_item>}
+                {categories && <Filter_item filter_list={categories}>Категорії</Filter_item>}
 
             </div>
         </>

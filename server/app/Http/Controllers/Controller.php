@@ -29,6 +29,7 @@ class Controller extends BaseController
         $data = [];
 
         $user = Auth::user();
+        $data['id'] = $user->id;
         $data['name'] = $user->name;
         $data['role'] = $user->role;
         $data['token'] = $user->createToken('myapptoken')->plainTextToken;

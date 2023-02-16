@@ -22,6 +22,7 @@ return new class extends Migration
             $table->text('comment');
             $table->string('category');
             $table->string('date');
+            $table->string('user');
             $table->timestamps();
         });
     }

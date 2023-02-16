@@ -15,8 +15,9 @@ return new class extends Migration
     {
         Schema::create('client_bases_categories', function (Blueprint $table) {
             $table->id();
-            $table->string('user');
+            $table->num('user');
             $table->string('category');
+            $table->string('color');
             $table->timestamps();
         });
     }

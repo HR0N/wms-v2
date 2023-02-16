@@ -25,7 +25,7 @@ class AdminPanelMiddleWare
         // Get the assigned user
         $user = $token->tokenable;
         $role = $user->role;
-        if($role === 'user'){
+        if($role === 'admin' || $role === 'user' ){
             return $next($request);
         }
         return $next('Access denied!');

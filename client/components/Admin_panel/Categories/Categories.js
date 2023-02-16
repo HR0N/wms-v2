@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useRef, useState} from "react";
 import ss from "./Categories.module.scss"
 import Form_serialize from "@/sublimates/form_serialize";
 import ServerClass from "@/sublimates/server";
@@ -9,12 +9,31 @@ const serialize = new Form_serialize();
 const server = new ServerClass();
 const input = new InputClass();
 
-const render_categories = obj => Object.keys(obj).map((v, k) => <option key={k} value={v}>{obj[v]}</option>);
+const submitHandler = (e, color, load_data, new_category) => {
+    e.preventDefault();
+    let data = serialize.trim_values(e);
+    data.color = color;
+    server.store_client_base_category(data, (err) => {}, () => {load_data(); new_category.setValue('')});
 
-const Categories = ({categories}) => {
+};
 
+const deleteHandler = (e, load_data) => {
+    e.preventDefault();
+    let data = serialize.trim_values(e).id;
+    server.destroy_client_base_category(data, (err) => {console.log(err);}, () => {load_data()});
+};
+
+const render_categories = arr => arr.map((v, k) => <option key={k} value={v.id}>{v.category}</option>);
+
+const Categories = ({categories, load_data}) => {
+
+    const [update, forceUpdate] = useState(false);
+    const [color, setColor] = useState(0);
+    const colorsRef = useRef(null);
     const new_category = input.init('');
     const existing_category = input.init('');
+
+    useEffect(() => {forceUpdate(!update)}, [categories]);
 
 
     return (
@@ -22,18 +41,29 @@ const Categories = ({categories}) => {
             <div className={ss.categories}>
 
                 <div className={`${ss.create_category}`}>
-                    <form className={`${ss.form}`}>
+                    <form className={`${ss.form}`} onSubmit={e => submitHandler(e, color, load_data, new_category)}>
 
                         <label>Створити категорію
-                            <input type="text" className={`form-control`} name={`new_category`} placeholder={`Хворі на рак яєчок`}
+                            <input type="text" className={`form-control`} name={`category`} placeholder={`Чудовий покупець`}
                                 value={new_category.val}
                                 onChange={e => {new_category.onChange(e)}}
                             />
                         </label>
 
+                        <label>Оберіть колір для категорії
+                            <div className={`${ss.colors}`} ref={colorsRef}>
+                                <div style={{'marginTop': '10px'}} className={`${ss.color} ${ss.transparent} ${color === 0 && ss.color_active}`} onClick={() => {setColor(0)}}> </div>
+                                <div style={{'marginTop': '10px'}} className={`${ss.color} ${ss.white} ${color === 1 && ss.color_active}`} onClick={() => {setColor(1)}}> </div>
+                                <div style={{'marginTop': '10px'}} className={`${ss.color} ${ss.black} ${color === 2 && ss.color_active}`} onClick={() => {setColor(2)}}> </div>
+                                <div style={{'marginTop': '10px'}} className={`${ss.color} ${ss.red} ${color === 3 && ss.color_active}`} onClick={() => {setColor(3)}}> </div>
+                                <div style={{'marginTop': '10px'}} className={`${ss.color} ${ss.green} ${color === 4 && ss.color_active}`} onClick={() => {setColor(4)}}> </div>
+                                <div style={{'marginTop': '10px'}} className={`${ss.color} ${ss.blue} ${color === 5 && ss.color_active}`} onClick={() => {setColor(5)}}> </div>
+                            </div>
+                        </label>
+
 
                         <div className={`${ss.buttons}`}>
-                            <button type={`submit`} className="btn btn-outline-dark">Create</button>
+                            <button type={`submit`} className="btn btn-outline-dark">Створити</button>
                         </div>
 
                     </form>
@@ -41,10 +71,10 @@ const Categories = ({categories}) => {
 
 
                 <div className={`${ss.delete_category}`}>
-                    <form className={`${ss.form}`}>
+                    <form className={`${ss.form}`} onSubmit={e => {deleteHandler(e, load_data)}}>
 
                         <label>Видалення існуючих категорій
-                            <select className={`form-control`} name="existing_category"
+                            <select className={`form-control`} name="id"
                                 value={existing_category.val}
                                 onChange={e => {existing_category.onChange(e)}}
                             >
@@ -61,7 +91,7 @@ const Categories = ({categories}) => {
 
 
                         <div className={`${ss.buttons}`}>
-                            <button type={`submit`} className="btn btn-outline-dark">Delete</button>
+                            <button type={`submit`} className="btn btn-outline-dark">Видалити</button>
                         </div>
 
                     </form>

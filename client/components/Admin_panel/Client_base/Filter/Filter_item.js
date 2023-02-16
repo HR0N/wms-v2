@@ -12,7 +12,7 @@ const elem_children_count = elem => $(elem.current).children().length;
 
 const Filter_item = ({filter_list, children}) => {
 
-    const render_filter_list = obj => Object.keys(obj).map((v, k) => <label key={k} ref={label}><li className={`${ss.list_item}`}><input type="checkbox" name={v}/>{obj[v]}</li></label>);
+    const render_filter_list = arr => arr.map((v, k) => <label key={k} ref={label}><li className={`${ss.list_item}`}><input type="checkbox" name={v.id}/>{v.category}</li></label>);
 
     const [show, setShow] = useState(false);
     const ul = useRef(null);
@@ -26,7 +26,7 @@ const Filter_item = ({filter_list, children}) => {
 
 
     useEffect(() => {
-        toggle_ul_height();
+        if(filter_list) toggle_ul_height();
     }, [show]);
     return (
         <>

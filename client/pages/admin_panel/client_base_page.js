@@ -1,38 +1,83 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import ss from "@/styles/admin_panel.module.scss"
 import Head from "next/head";
 import Aside from "@/components/Aside/Aside";
 import Client_base from "@/components/Admin_panel/Client_base/Client_base";
 import {withAdmin_layout} from "@/components/Layout/Admin_layout";
 import Filter from "@/components/Admin_panel/Client_base/Filter/Filter";
-import Categories from "@/components/Admin_panel/Categories/Categories";
+import ServerClass from "@/sublimates/server";
+import AuthClass from "@/sublimates/authClass";
 
 
-const statuses = {
-    none: 'Ніякого',
-    work: 'Працюємо',
-    worked_well_before: 'Працювали, добре',
-    worked_before_bad: 'Працювали, погано',
-    potential_client: 'Потенційний клієнт',
-    inadequate: 'Неадекватний'
+const auth = new AuthClass();
+const server = new ServerClass();
+
+
+const statuses = [
+    {id: 'none', category: 'Ніякого'},
+    {id: 'work', category: 'Працюємо'},
+    {id: 'worked_well_before', category: 'Працювали, добре'},
+    {id: 'worked_before_bad', category: 'Працювали, погано'},
+    {id: 'potential_client', category: 'Потенційний клієнт'},
+    {id: 'inadequate', category: 'Неадекватний'},
+];
+const categories = [
+    {
+        category: "Kabanchik",
+        color: "4",
+        created_at: "2023-02-16T16:24:42.000000Z",
+        id: 16,
+        updated_at: "2023-02-16T16:24:42.000000Z",
+        user: "1",
+    },
+    {
+        category: "Kill me",
+        color: "0",
+        created_at: "2023-02-16T17:02:16.000000Z",
+        id: 23,
+        updated_at: "2023-02-16T17:02:16.000000Z",
+        user: "1",
+    },
+];
+
+
+const sort_object_by_value_alphabet = arr => {
+    return arr.sort((a, b) => a.category.localeCompare(b.category));
 };
-let categories = {
-    kabanchik: 'Kaban parsing',
-    first: 'first',
-    second: 'second',
-    third: 'third',
-    fourth: 'fourth',
-    fifth: 'fifth',
-    sixth: 'sixth',
+
+
+const load_categories = (setCategories) => {
+    server.get_client_base_categories(
+        (err) => {console.log(err);},
+        (res) => {setCategories(sort_object_by_value_alphabet(res.data))})
 };
-const sort_object_by_value_alphabet = obj => {
-    let clone = {};
-    Object.keys(obj).sort((a, b) => categories[a].localeCompare(categories[b])).forEach(v => clone[v] = categories[v]);
-    return clone;
+const load_clients = (setClients) => {
+    server.get_contact_cards(
+        (err) => {console.log(err);},
+        (res) => {setClients(res.data)})
 };
-categories = sort_object_by_value_alphabet(categories);
+
 
 const client_base_page = () => {
+
+
+    const [user, setUser] = useState(null);
+    const [categories, setCategories] = useState(null);
+    const [clients, setClients] = useState(null);
+
+
+    useEffect(() => {
+
+        setUser(auth.user());
+
+        if(user && window.location.hostname !== 'localhost'){
+            load_categories(setCategories);
+            load_clients(setClients);
+        }
+
+    }, [user]);
+
+
     return (
         <>
             <Head>
@@ -52,6 +97,7 @@ const client_base_page = () => {
                 <div className={ss.main}>
                     <Client_base
                         statuses={statuses}
+                        clients={clients}
                         categories={categories}
                     />
                 </div>

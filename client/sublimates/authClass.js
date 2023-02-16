@@ -30,7 +30,7 @@ export default class AuthClass {
     is_admin = () => {
         let user = this.storage.get_item('user');
         if(!user) return;
-        return user !== null ? JSON.parse(user).role === 'admin' : false;
+        return user !== 'null' ? JSON.parse(user).role === 'admin' : false;
     };
 
 

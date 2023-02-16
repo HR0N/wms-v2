@@ -13,5 +13,6 @@ class ClientBasesCategories extends Model
     protected $fillable = [
         'user',
         'category',
+        'color',
     ];
 }

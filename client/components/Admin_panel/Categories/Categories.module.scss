@@ -27,16 +27,21 @@
   border-radius: .2rem;
   background-color: #eaeaea;
 }
+.create_category:hover .color{
+  filter: grayscale(0);
+}
 .delete_category{
 
 }
 .form{
-  display: grid;
-  grid-template-columns: repeat(auto-fit, 1fr);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
   width: 100%;
+  height: 100%;
 
-  gap: 50px;
+  gap: 40px;
 
   label{
     position: relative;
@@ -45,6 +50,42 @@
   }
   input, select, textarea{
     margin-top: 4px;
+  }
+  .colors{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .color{
+    border-radius: .2rem;
+    padding: 4px;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    transition: all .3s;
+    filter: grayscale(100%);
+  }
+  .color_active{
+    box-shadow: 1px 1px 3px dimgrey;
+  }
+  .transparent{
+    background-color: transparent;
+    outline: 1px solid lightgrey;
+  }
+  .white{
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+  .black{
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  .red{
+    background-color: rgba(240, 147, 182, 0.8);
+  }
+  .green{
+    background-color: rgba(144, 238, 144, 0.8);
+  }
+  .blue{
+    background-color: rgba(171, 192, 230, 0.8);
   }
   ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
     color: #cacaca;
@@ -63,5 +104,6 @@
 .buttons{
   display: grid;
   justify-content: flex-end;
+  align-self: stretch;
   font-family: var(--montserrat);
 }
