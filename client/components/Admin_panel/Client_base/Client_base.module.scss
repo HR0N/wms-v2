@@ -42,6 +42,27 @@
       box-shadow: 1px 1px 3px dimgrey;
     }
   }
+
+}
+.transparent{
+  background-color: transparent;
+  outline: 1px solid lightgrey;
+}
+.white{
+  background-color: rgba(255, 255, 255, 0.8);
+}
+.black{
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+}
+.red{
+  background-color: rgba(240, 147, 182, 0.8);
+}
+.green{
+  background-color: rgba(144, 238, 144, 0.8);
+}
+.blue{
+  background-color: rgba(171, 192, 230, 0.8);
 }
 .form {
   display: grid;

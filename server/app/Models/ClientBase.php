@@ -16,7 +16,8 @@ class ClientBase extends Model
         'occupation',
         'status',
         'comment',
-        'category',
-        'date'
+        'categories',
+        'date',
+        'user',
     ];
 }

@@ -11,19 +11,30 @@ const server = new ServerClass();
 const input = new InputClass();
 
 
-const submitHandler = e => {
+const category_colors = ['transparent', 'white', 'black', 'red', 'green', 'blue'];
+
+
+const submitHandler = (e, load_clients, setSearch, userCategories) => {
     e.preventDefault();
 
 
     let submit_type = e.nativeEvent.submitter.value;
     let data = serialize.trim_values(e);
-    data.phone.replace(' ', '');
+    data.phone = data.phone.replaceAll(' ', '');
+    data.categories = JSON.stringify(userCategories);
     let id = null;
 
-    if (submit_type === 'create') {server.store_contact_card(data);}
-    else if (submit_type === 'update') {server.update_contact_card(data, id)}
-    else if (submit_type === 'delete') {server.destroy_contact_card(id)}
+    console.log(data);
+
+    if (submit_type === 'create') {server.store_contact_card(data, (r) => {console.log(r);}, () => {load_clients(); setSearch('found');});}
+    else if (submit_type === 'update') {server.update_contact_card(data, id, () => {}, () => {load_clients();})}
+    else if (submit_type === 'delete') {server.destroy_contact_card(id, () => {}, () => {load_clients();})}
 };
+
+
+
+
+
 
 const phone_split = phone => phone.replaceAll(' ', '').replace(/(\d{3})(\d{3})(\d{2})(\d{2})/, '$1 $2 $3 $4');
 
@@ -31,43 +42,34 @@ const render_statuses = arr => arr.map((v, k) => <option key={k} value={v.id}>{v
 
 const render_categories = arr => arr.map((v, k) => <option key={k} value={v.id}>{v.category}</option>);
 
-let user_categories = ['cat 1', 'cat 10', 'kabanchik parse', 'empty cojones'];
+
+// let user_categories = ['cat 1', 'cat 10', 'kabanchik parse', 'empty cojones'];
 
 
 
-const Client_base = ({statuses, clients, categories}) => {
+const Client_base = ({statuses, clients, categories, load_clients}) => {
 
     const [update, forceUpdate] = useState(false);
 
 
     const render_user_categories = () => {
-        return user_categories.map((v, k)=>{
-            return <div key={k} className={`${ss.category}`}>
-                {v}<div className={`${ss.delete}`} onClick={e => {delete_category(e)}}><i className="fa-solid fa-circle-xmark"></i></div>
-            </div>
+        return userCategories.map((v, k)=>{
+            if(v !== 'empty'){
+                return <div key={k} className={`${ss.category}`}>
+                    {categories.filter(v2 => +v2.id === +v)[0].category}<div className={`${ss.delete}`} onClick={e => {delete_category(v)}}><i className="fa-solid fa-circle-xmark"></i></div>
+                </div>
+            }
         });
     };
-    const delete_category = e => {
-        let parent = $(e.currentTarget).parent();
-        let text = parent.text();
-        categories = categories.filter(cat => cat !== text);
-        console.log(categories);
+    const delete_category = id => {
+        // let parent = $(e.currentTarget).parent();
+        // let text = parent.text();
+        setUserCategories(userCategories.filter(cat => cat !== id));
         // $(parent).remove();
         forceUpdate(!update);
     };
 
-    const [data, setData] = useState([
-        {
-            id: '0',
-            phone: '0636056649',
-            name: 'Kovalenko Evben',
-            occupation: 'programming',
-            status: 'work',
-            comment: 'Work with next, laravel',
-            category: 'category',
-            date: '2023-02-14',
-        }
-        ]);
+    const [userCategories, setUserCategories] = useState(['empty']);
     const [search, setSearch] = useState('not');
 
     const phone = input.init('');
@@ -76,18 +78,22 @@ const Client_base = ({statuses, clients, categories}) => {
     const status = input.init('');
     const comment = input.init('');
     const category = input.init('');
-    const date = input.init('');
+    let curDate = new Date();
+    curDate = `${curDate.getFullYear()}-${(curDate.getMonth() + 1).toString().length < 2 ? '0'+(curDate.getMonth() + 1).toString() : curDate.getMonth() + 1}-${curDate.getDate().toString().length < 2 ? '0'+curDate.getDate().toString() : curDate.getDate()}`;
+    const date = input.init(curDate);
+    const id = input.init('');
 
-    const phones_filter = phone => data.filter(v => v.phone === phone.replaceAll(' ', ''));
+    const phones_filter = phone => clients.filter(v => v.phone === phone.replaceAll(' ', ''));
 
     const refresh_fields = obj => {
-        if(obj.length > 0){
-            name.setValue(obj[0].name);
-            occupation.setValue(obj[0].occupation);
-            status.setValue(obj[0].status);
-            comment.setValue(obj[0].comment);
-            category.setValue(obj[0].category);
-            date.setValue(obj[0].date);
+        if(obj.hasOwnProperty('name')){
+            phone.setValue(obj.phone);
+            name.setValue(obj.name);
+            occupation.setValue(obj.occupation);
+            status.setValue(obj.status);
+            comment.setValue(obj.comment);
+            category.setValue(obj.category);
+            date.setValue(obj.date);
         }else{
             name.setValue('');
             occupation.setValue('');
@@ -99,18 +105,51 @@ const Client_base = ({statuses, clients, categories}) => {
     };
 
     const find_phone = phone => {
+        if(!clients) return;
         phone = phone.replaceAll(' ', '');
         let contact_card = phones_filter(phone);
 
         if(phone.length > 0 && phone.length < 10 && contact_card.length === 0){setSearch('yes');}
         else if(phone.length === 10 && contact_card.length > 0){setSearch('found');}
-        else if(phone.length === 10 && contact_card.length === 0){setSearch('not found');}
+        else if(phone.length === 10 && contact_card.length === 0){setSearch('not found'); date.setValue(curDate);}
         else{setSearch('not');}
-
 
         refresh_fields(contact_card);
     };
 
+
+    const render_clients = () => clients.map((v, k) => <div key={k} className={`${ss.phone} ${ss[get_category_color_by_user(v)]}`} id={v.id} onClick={e => phoneSelectHandler(e)}>{phone_split(v.phone)}</div>);
+
+    const user_last_category = user => JSON.parse(user.categories).slice(-1);
+    const get_category_color_by_user = user => {
+        if(!categories) return;
+        let category = categories.filter((v, k) => v.id === +user_last_category(user))[0];
+        if(category){return category_colors[category.color];}
+        else return 'transparent';
+
+    };
+
+
+    const add_category_to_user = (e) => {
+        let new_value = $(e.target).val();
+        if(new_value === 'empty') return;
+        if(userCategories.indexOf(new_value) < 0){
+            let arr = [new_value].concat(userCategories);
+            setUserCategories(arr);
+        }
+        if(userCategories.length === 1 && userCategories.indexOf('empty') > -1){
+            setUserCategories([new_value]);
+        }
+    };
+
+
+    const phoneSelectHandler = (e) => {
+        clients.map((v, k) => {
+            if(+v.id === +$(e.target).attr('id')){
+                setUserCategories(JSON.parse(v.categories));
+                refresh_fields(v);
+            }});
+    };
 
     useEffect(() => {
 
@@ -125,7 +164,7 @@ const Client_base = ({statuses, clients, categories}) => {
                 <div className={`${ss.crud}`}>
                     <div className={ss.title}>Контактна картка</div>
                     <form className={`${ss.form} ${ss.update}`}
-                          onSubmit={e => {submitHandler(e)}}
+                          onSubmit={e => {submitHandler(e, load_clients, setSearch, userCategories)}}
                     >
 
 
@@ -163,12 +202,6 @@ const Client_base = ({statuses, clients, categories}) => {
                                     onChange={e => {status.onChange(e);}}
                             >
                                 {statuses && render_statuses(statuses)}
-                                {/*<option value="none">Ніякого</option>
-                                <option value="work">Працюємо</option>
-                                <option value="worked_well_before">Працювали раніше, добре</option>
-                                <option value="worked_before_bad">Працювали раніше, погано</option>
-                                <option value="potential_client">Потенційний клієнт</option>
-                                <option value="inadequate">Неадекватний</option>*/}
                             </select>
                         </label>
 
@@ -183,19 +216,19 @@ const Client_base = ({statuses, clients, categories}) => {
 
 
                         {
-                            user_categories.length > 0 &&
+                            (userCategories.length > 0 && userCategories[0] !== 'empty') &&
                             <div className={`${ss.categories}`}>
-                                {render_user_categories(categories)}
+                                {render_user_categories()}
                             </div>
                         }
 
                         <label>Присвоєння категорій
-                            <select className={`form-control`} name="categories"
+                            <select className={`form-control`} name="category"
                                     value={category.val}
-                                    onChange={e => {category.onChange(e);}}
+                                    onChange={e => {category.onChange(e); add_category_to_user(e);}}
                             >
+                                <option value={`empty`}> </option>
                                 {categories && render_categories(categories)}
-                                <option> - - - - - - - - </option>
                             </select>
                         </label>
 
@@ -210,6 +243,12 @@ const Client_base = ({statuses, clients, categories}) => {
                         </label>
 
 
+                        <input type="text" name={'id'} hidden={true}
+                               value={id.val}
+                               onChange={e => {id.onChange(e);}}
+                        />
+
+
                         <div className={ss.buttons}>
                             <button type={`submit`} className={`btn btn-outline-dark`} value={`create`}>Create</button>
                             <button type={`submit`} className={`btn btn-outline-dark`} value={`update`}>Update</button>
@@ -221,36 +260,16 @@ const Client_base = ({statuses, clients, categories}) => {
                 </div>
 
 
-                <div className={`${ss.crud}`}>
-                    <div className={ss.title}>База номерів</div>
-                    <div className={`${ss.phones}`}>
-                        <div className={`${ss.phone}`}>063 605 66 49</div>
-                        <div className={`${ss.phone}`}>063 605 66 49</div>
-                        <div className={`${ss.phone}`}>063 605 66 49</div>
-                        <div className={`${ss.phone}`}>063 605 66 49</div>
-                        <div className={`${ss.phone}`}>063 605 66 49</div>
-                        <div className={`${ss.phone}`}>063 605 66 49</div>
-                    </div>
-                </div>
-
-
-                {/*<div className={`${ss.crud}`}>
-                    <div className={ss.title}>Create</div>
-                    <form className={`${ss.form} ${ss.create}`}>
-
-
-                        <label>Телефон
-                            <input type="tel" className={`form-control`} name={`phone`} placeholder={`050 825 50 25`}/>
-                        </label>
-
-
-                        <div className={ss.buttons}>
-                            <button type={`submit`} className={`btn btn-outline-dark`}>Add</button>
+                {
+                    clients && <div className={`${ss.crud}`}>
+                        <div className={ss.title}>База номерів</div>
+                        <div className={`${ss.phones}`}>
+                            {/*<div className={`${ss.phone}`}>063 605 66 49</div>*/}
+                            {render_clients()}
+                            {/*<div className={`${ss.phone}`} id={11} onClick={e => phoneSelectHandler(e)}>{`v.phone`}</div>*/}
                         </div>
-
-
-                    </form>
-                </div>*/}
+                    </div>
+                }
 
 
             </div>

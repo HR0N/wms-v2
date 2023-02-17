@@ -16,11 +16,11 @@ return new class extends Migration
         Schema::create('client_base', function (Blueprint $table) {
             $table->id();
             $table->string('phone')->unique();
-            $table->string('name');
-            $table->string('occupation');
+            $table->string('name')->nullable(true);
+            $table->string('occupation')->nullable(true);
             $table->string('status');
-            $table->text('comment');
-            $table->string('category');
+            $table->text('comment')->nullable(true);
+            $table->string('categories')->nullable(true);
             $table->string('date');
             $table->string('user');
             $table->timestamps();

@@ -30,15 +30,15 @@ Route::get('/mail', [VerifyEmailController::class, 'contact']);
 //Route::group(['middleware' => 'auth:sanctum', 'middleware' => 'admin'], function (){
 
 
-Route::group(['middleware' => 'auth:sanctum', 'middleware' => 'admin'], function (){
-    Route::get('/test', [Controller::class, 'index']);
+Route::group(['middleware' => 'auth:sanctum', 'middleware' => 'user'], function (){
 
     Route::get('/get_contact_cards', [ClientBaseController::class, 'index']);
     Route::post('/create_contact_card', [ClientBaseController::class, 'store']);
     Route::get('/get_contact_card/{id}', [ClientBaseController::class, 'show']);
-    Route::get('/update_contact_card/{id}', [ClientBaseController::class, 'update']);
+    Route::post('/update_contact_card/{id}', [ClientBaseController::class, 'update']);
     Route::get('/destroy_contact_card/{id}', [ClientBaseController::class, 'destroy']);
     Route::get('/search_contact_card/{phone}', [ClientBaseController::class, 'search']);
+
     Route::get('/get_client_base_categories', [ClientBaseCategoriesController::class, 'index']);
     Route::post('/create_client_base_category', [ClientBaseCategoriesController::class, 'store']);
     Route::get('/delete_client_base_category/{id}', [ClientBaseCategoriesController::class, 'destroy']);

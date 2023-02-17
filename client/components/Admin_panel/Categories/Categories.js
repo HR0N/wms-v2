@@ -14,7 +14,6 @@ const submitHandler = (e, color, load_data, new_category) => {
     let data = serialize.trim_values(e);
     data.color = color;
     server.store_client_base_category(data, (err) => {}, () => {load_data(); new_category.setValue('')});
-
 };
 
 const deleteHandler = (e, load_data) => {

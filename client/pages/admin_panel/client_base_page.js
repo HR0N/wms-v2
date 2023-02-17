@@ -21,7 +21,7 @@ const statuses = [
     {id: 'potential_client', category: 'Потенційний клієнт'},
     {id: 'inadequate', category: 'Неадекватний'},
 ];
-const categories = [
+const categoriesD = [
     {
         category: "Kabanchik",
         color: "4",
@@ -54,7 +54,7 @@ const load_categories = (setCategories) => {
 const load_clients = (setClients) => {
     server.get_contact_cards(
         (err) => {console.log(err);},
-        (res) => {setClients(res.data)})
+        (res) => {if(res.data.length > 0){setClients(res.data)}})
 };
 
 
@@ -62,8 +62,10 @@ const client_base_page = () => {
 
 
     const [user, setUser] = useState(null);
-    const [categories, setCategories] = useState(null);
+    const [categories, setCategories] = useState(categoriesD);
     const [clients, setClients] = useState(null);
+    const [filterStatuses, setFilterStatuses] = useState([]);
+    const [filterCategories, setFilterCategories] = useState([]);
 
 
     useEffect(() => {
@@ -90,6 +92,10 @@ const client_base_page = () => {
                     <Filter
                         statuses={statuses}
                         categories={categories}
+                        filterStatuses={filterStatuses}
+                        setFilterStatuses={setFilterStatuses}
+                        filterCategories={filterStatuses}
+                        setFilterCategories={setFilterCategories}
                     />
                 </div>
 
@@ -99,6 +105,9 @@ const client_base_page = () => {
                         statuses={statuses}
                         clients={clients}
                         categories={categories}
+                        load_clients={() => {load_clients(setClients)}}
+                        filterStatuses={filterStatuses}
+                        filterCategories={filterStatuses}
                     />
                 </div>
 

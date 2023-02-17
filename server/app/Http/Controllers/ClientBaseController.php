@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\ClientBase;
 use Illuminate\Http\Request;
+use Laravel\Sanctum\PersonalAccessToken;
+use function Ramsey\Uuid\Lazy\toString;
 
 class ClientBaseController extends Controller
 {
@@ -15,7 +17,13 @@ class ClientBaseController extends Controller
     public function index()
     {
         //
-        return ClientBase::all();
+        $yourToken = request()->bearerToken();
+        // Fetch the associated token Model
+        $token = PersonalAccessToken::findToken($yourToken);
+
+        // Get the assigned user
+        $user = $token->tokenable;
+        return ClientBase::where('user', 'like', '%'.$user->id.'%')->get();
     }
 
     /**
@@ -27,7 +35,19 @@ class ClientBaseController extends Controller
     public function store(Request $request)
     {
         //
-        return ClientBase::create($request->all());
+        $fields = $request->validate([
+            'phone' => 'required|string|unique:client_base',
+        ]);
+
+        $yourToken = request()->bearerToken();
+        // Fetch the associated token Model
+        $token = \Laravel\Sanctum\PersonalAccessToken::findToken($yourToken);
+
+        // Get the assigned user
+        $user = $token->tokenable;
+        //
+        $data = array_merge($request->all(), ['user' => $user->id]);
+        return ClientBase::create($data);
     }
 
     /**
