@@ -131,7 +131,7 @@ class ServerClass {
     update_contact_card(data, id, callbackError = ()=>{}, callbackSuccess = ()=>{}){
         this.axios.get('sanctum/csrf-cookie')
             .then(res => {
-                this.axios.get(`api/update_contact_card/${id}`, data, {
+                this.axios.post(`api/update_contact_card/${id}`, data, {
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',

@@ -11,8 +11,8 @@ const Filter = ({statuses, categories, filterStatuses, setFilterStatuses, filter
                 {statuses &&
                 <Filter_item
                     filter_list={statuses}
-                    filterStatuses={filterStatuses}
-                    setFilterStatuses={setFilterStatuses}
+                    filterList={filterStatuses}
+                    setFilterList={setFilterStatuses}
                 >Статус</Filter_item>
                 }
 
@@ -20,8 +20,8 @@ const Filter = ({statuses, categories, filterStatuses, setFilterStatuses, filter
                 {categories &&
                 <Filter_item
                     filter_list={categories}
-                    filterCategories={filterCategories}
-                    setFilterCategories={setFilterCategories}
+                    filterList={filterCategories}
+                    setFilterList={setFilterCategories}
                 >Категорії</Filter_item>
                 }
 

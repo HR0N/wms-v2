@@ -38,6 +38,55 @@ const categoriesD = [
         updated_at: "2023-02-16T17:02:16.000000Z",
         user: "1",
     },
+    {
+        category: "blue",
+        color: "5",
+        created_at: "2023-02-16T17:02:16.000000Z",
+        id: 30,
+        updated_at: "2023-02-16T17:02:16.000000Z",
+        user: "1",
+    },
+];
+const clientsD = [
+    {
+        categories: "[\"16\"]",
+        comment: null,
+        created_at: "2023-02-17T11:22:35.000000Z",
+        date: "2023-02-17",
+        id: 5,
+        name: null,
+        occupation: null,
+        phone: "0636056640",
+        status: "none",
+        updated_at: "2023-02-17T11:22:35.000000Z",
+        user: "1",
+    },
+    {
+        categories: "[\"empty\"]",
+        comment: null,
+        created_at: "2023-02-17T12:48:02.000000Z",
+        date: "2023-02-17",
+        id: 10,
+        name: null,
+        occupation: null,
+        phone: "0636056641",
+        status: "none",
+        updated_at: "2023-02-17T12:48:02.000000Z",
+        user: "1",
+    },
+    {
+        categories: "[\"30\"]",
+        comment: null,
+        created_at: "2023-02-17T14:05:45.000000Z",
+        date: "2023-02-17",
+        id: 17,
+        name: null,
+        occupation: null,
+        phone: "0636056642",
+        status: "none",
+        updated_at: "2023-02-17T14:05:45.000000Z",
+        user: "1",
+    },
 ];
 
 
@@ -62,7 +111,7 @@ const client_base_page = () => {
 
 
     const [user, setUser] = useState(null);
-    const [categories, setCategories] = useState(categoriesD);
+    const [categories, setCategories] = useState(null);
     const [clients, setClients] = useState(null);
     const [filterStatuses, setFilterStatuses] = useState([]);
     const [filterCategories, setFilterCategories] = useState([]);
@@ -94,7 +143,7 @@ const client_base_page = () => {
                         categories={categories}
                         filterStatuses={filterStatuses}
                         setFilterStatuses={setFilterStatuses}
-                        filterCategories={filterStatuses}
+                        filterCategories={filterCategories}
                         setFilterCategories={setFilterCategories}
                     />
                 </div>
@@ -107,7 +156,7 @@ const client_base_page = () => {
                         categories={categories}
                         load_clients={() => {load_clients(setClients)}}
                         filterStatuses={filterStatuses}
-                        filterCategories={filterStatuses}
+                        filterCategories={filterCategories}
                     />
                 </div>
 

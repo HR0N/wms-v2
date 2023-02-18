@@ -16,10 +16,24 @@
 - npm install jquery --save
 - npm i h-bootstrap
 - npm i bootstrap
+
+###### Use source-map-explorer with Next.js
+- 1 npm install -D source-map-explorer
+- 2 Update the next.config.js file: 
+        module.exports = {
+          productionBrowserSourceMaps: true,
+        }
+- 3 Add scripts:
+        "scripts": {
+          "analyze": "source-map-explorer .next/static/**/*.js",
+          "build": "next build",
+          "build:analyze": "npm run build && npm run analyze"
+        }
 #### Deploy
 - check .htaccess
 - axios.defaults.withCredentials = true;
-- create .env > put in: GENERATE_SOURCEMAP=false
+
+
 ##### React Font Awesome
 - npm i --save @fortawesome/fontawesome-svg-core
 - npm install --save @fortawesome/free-solid-svg-icons

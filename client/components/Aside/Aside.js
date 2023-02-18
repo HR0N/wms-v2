@@ -20,8 +20,8 @@ const Aside = () => {
                                 show={active('admin_panel')}
                                 submenu={
                               <>
-                                <Link href={'/admin_panel/client_base_page'}><li className={`${ss.sub_item} ${active_class('client_base_page')}`}>crud</li></Link>
-                                <Link href={'/admin_panel/categories_page'}><li className={`${ss.sub_item} ${active_class('categories_page')}`}>Categories</li></Link>
+                                <Link href={'/admin_panel/client_base_page'}><li className={`${ss.sub_item} ${active_class('client_base_page')}`}>phone cards</li></Link>
+                                <Link href={'/admin_panel/categories_page'}><li className={`${ss.sub_item} ${active_class('categories_page')}`}>categories</li></Link>
                               </>
                           }
                     >

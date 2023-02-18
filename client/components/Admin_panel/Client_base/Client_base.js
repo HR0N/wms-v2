@@ -22,13 +22,12 @@ const submitHandler = (e, load_clients, setSearch, userCategories) => {
     let data = serialize.trim_values(e);
     data.phone = data.phone.replaceAll(' ', '');
     data.categories = JSON.stringify(userCategories);
-    let id = null;
 
-    console.log(data);
+
 
     if (submit_type === 'create') {server.store_contact_card(data, (r) => {console.log(r);}, () => {load_clients(); setSearch('found');});}
-    else if (submit_type === 'update') {server.update_contact_card(data, id, () => {}, () => {load_clients();})}
-    else if (submit_type === 'delete') {server.destroy_contact_card(id, () => {}, () => {load_clients();})}
+    else if (submit_type === 'update') {server.update_contact_card(data, data.id, (r) => {console.log(r);}, () => {load_clients();})}
+    else if (submit_type === 'delete') {server.destroy_contact_card(data.id, (r) => {console.log(r);}, () => {load_clients();})}
 };
 
 
@@ -42,25 +41,31 @@ const render_statuses = arr => arr.map((v, k) => <option key={k} value={v.id}>{v
 
 const render_categories = arr => arr.map((v, k) => <option key={k} value={v.id}>{v.category}</option>);
 
-
-// let user_categories = ['cat 1', 'cat 10', 'kabanchik parse', 'empty cojones'];
-
-
-
-const Client_base = ({statuses, clients, categories, load_clients}) => {
+const Client_base = ({statuses, clients, categories, load_clients, filterStatuses, filterCategories}) => {
 
     const [update, forceUpdate] = useState(false);
 
 
     const render_user_categories = () => {
         return userCategories.map((v, k)=>{
-            if(v !== 'empty'){
-                return <div key={k} className={`${ss.category}`}>
-                    {categories.filter(v2 => +v2.id === +v)[0].category}<div className={`${ss.delete}`} onClick={e => {delete_category(v)}}><i className="fa-solid fa-circle-xmark"></i></div>
+            if(v !== 'empty' && check_user_categories_is_exist(v)){
+                return <div key={k} className={`${ss.category} ${get_category_color_by_category_id(v)}`}>
+                    {categories.filter(v2 => +v2.id === +v)[0].category}
+                    <div className={`${ss.delete}`} onClick={e => {delete_category(v)}}
+                    ><i className="fa-solid fa-circle-xmark"></i></div>
                 </div>
             }
         });
     };
+    const check_user_categories_is_exist = (category) => {
+        return categories.filter(v => +v.id === +category).length > 0;
+    };
+    const get_category_color_by_category_id = (id) => {
+        return ss[category_colors[categories.filter(v => +v.id === +id)[0].color]];
+    };
+
+
+
     const delete_category = id => {
         // let parent = $(e.currentTarget).parent();
         // let text = parent.text();
@@ -86,21 +91,28 @@ const Client_base = ({statuses, clients, categories, load_clients}) => {
     const phones_filter = phone => clients.filter(v => v.phone === phone.replaceAll(' ', ''));
 
     const refresh_fields = obj => {
-        if(obj.hasOwnProperty('name')){
-            phone.setValue(obj.phone);
-            name.setValue(obj.name);
-            occupation.setValue(obj.occupation);
-            status.setValue(obj.status);
-            comment.setValue(obj.comment);
-            category.setValue(obj.category);
-            date.setValue(obj.date);
+
+        if( Array.isArray(obj) ) obj = obj[0];
+
+        if(obj){
+            phone.setValue(obj.phone !== null ? obj.phone : '');
+            name.setValue(obj.name !== null ? obj.name : '');
+            occupation.setValue(obj.occupation !== null ? obj.occupation : '');
+            status.setValue(obj.status !== null ? obj.status : '');
+            comment.setValue(obj.comment !== null ? obj.comment : '');
+            category.setValue(obj.category !== null ? obj.category : '');
+            date.setValue(obj.date !== null ? obj.date : '');
+            id.setValue(obj.id !== null ? obj.id : '');
+            setUserCategories(JSON.parse(obj.categories))
         }else{
             name.setValue('');
             occupation.setValue('');
             status.setValue('');
             comment.setValue('');
             category.setValue('');
-            date.setValue('');
+            date.setValue(curDate);
+            id.setValue('');
+            setUserCategories([]);
         }
     };
 
@@ -118,7 +130,37 @@ const Client_base = ({statuses, clients, categories, load_clients}) => {
     };
 
 
-    const render_clients = () => clients.map((v, k) => <div key={k} className={`${ss.phone} ${ss[get_category_color_by_user(v)]}`} id={v.id} onClick={e => phoneSelectHandler(e)}>{phone_split(v.phone)}</div>);
+    const filterCheckCategories = (user_categories, filterArray) => {
+        user_categories = JSON.parse(user_categories);
+        let result = false;
+
+        user_categories.map((v, k)=>{
+            if(filterArray.includes(+v)) result = true;
+        });
+
+
+        return result;
+    };
+
+    const filterCheckStatus = (user_categories, filterArray) => {
+        return filterArray.includes(user_categories);
+    };
+
+    const render_clients = () => clients.map((v, k) => {
+
+
+        if(filterStatuses.length > 0 && !filterCheckStatus(v.status, filterStatuses)) return ;
+        if(filterCategories.length > 0 && !filterCheckCategories(v.categories, filterCategories)) return ;
+
+
+        return <div key={k}
+                    className={`${ss.phone} ${ss[get_category_color_by_user(v)]}`}
+                    id={v.id}
+                    onClick={e => phoneSelectHandler(e)}
+        >
+            {phone_split(v.phone)}
+        </div>
+    });
 
     const user_last_category = user => JSON.parse(user.categories).slice(-1);
     const get_category_color_by_user = user => {
@@ -144,6 +186,7 @@ const Client_base = ({statuses, clients, categories, load_clients}) => {
 
 
     const phoneSelectHandler = (e) => {
+        find_phone($(e.target).text().replaceAll(' ', ''));
         clients.map((v, k) => {
             if(+v.id === +$(e.target).attr('id')){
                 setUserCategories(JSON.parse(v.categories));
@@ -162,10 +205,24 @@ const Client_base = ({statuses, clients, categories, load_clients}) => {
 
 
                 <div className={`${ss.crud}`}>
+
+
+                    <div className={`${ss.trash_card}`}
+                         onClick={() => {
+                             refresh_fields(false);
+                             phone.setValue('');
+                             setSearch('not');
+                         }}
+                    ><i className="fa-solid fa-trash-can"></i></div>
+
+
                     <div className={ss.title}>Контактна картка</div>
+
+
                     <form className={`${ss.form} ${ss.update}`}
                           onSubmit={e => {submitHandler(e, load_clients, setSearch, userCategories)}}
                     >
+
 
 
                         <label>Телефон
@@ -250,6 +307,7 @@ const Client_base = ({statuses, clients, categories, load_clients}) => {
 
 
                         <div className={ss.buttons}>
+                            {/*<button className={`btn btn-outline-dark ${ss.clear}`}>Clear</button>*/}
                             <button type={`submit`} className={`btn btn-outline-dark`} value={`create`}>Create</button>
                             <button type={`submit`} className={`btn btn-outline-dark`} value={`update`}>Update</button>
                             <button type={`submit`} className={`btn btn-outline-dark`} value={`delete`}>Delete</button>

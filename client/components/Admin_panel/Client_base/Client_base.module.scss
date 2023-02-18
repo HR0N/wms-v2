@@ -13,6 +13,7 @@
     }
 }
 .crud{
+  position: relative;
   display: grid;
 
   height: min-content;
@@ -20,6 +21,20 @@
   background-color: #eaeaea;
   border-radius: .2rem;
   box-shadow: 1px 1px 3px #c7c7c7;
+}
+.trash_card{
+  position: absolute;
+  padding: 6px 8px;
+  top: 2px;
+  right: 2px;
+  border: 1px solid lightgrey;
+  border-radius: .2rem;
+  opacity: .2;
+  transition: all .2s;
+  &:hover{
+    cursor: pointer;
+    opacity: 1;
+  }
 }
 .title{
   font-weight: bold;
@@ -45,24 +60,24 @@
 
 }
 .transparent{
-  background-color: transparent;
-  outline: 1px solid lightgrey;
+  background-color: transparent !important;
+  outline: 1px solid lightgrey !important;
 }
 .white{
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.8) !important;
 }
 .black{
-  background-color: rgba(0, 0, 0, 0.5);
-  color: white;
+  background-color: rgba(0, 0, 0, 0.5) !important;
+  color: white !important;
 }
 .red{
-  background-color: rgba(240, 147, 182, 0.8);
+  background-color: rgba(240, 147, 182, 0.8) !important;
 }
 .green{
-  background-color: rgba(144, 238, 144, 0.8);
+  background-color: rgba(144, 238, 144, 0.8) !important;
 }
 .blue{
-  background-color: rgba(171, 192, 230, 0.8);
+  background-color: rgba(171, 192, 230, 0.8) !important;
 }
 .form {
   display: grid;
@@ -153,7 +168,7 @@
   }
   .buttons{
     display: grid;
-    grid-template-columns: repeat(3, auto);
+    grid-template-columns: repeat(4, auto);
     justify-content: flex-end;
 
     gap: 10px;
