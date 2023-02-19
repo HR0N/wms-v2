@@ -1,0 +1,20 @@
+.aside_links{
+    ul{
+      display: grid;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+
+
+      font-family: var(--comic);
+      color: var(--grey-v2);
+      text-shadow: 1px 1px 1px lightgrey;
+      li{
+        opacity: .5;
+        &:hover{
+          opacity: 1;
+          color: var(--aside-active);
+        }
+      }
+    }
+}

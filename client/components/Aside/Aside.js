@@ -7,7 +7,7 @@ import Link from "next/link";
 const Aside = () => {
     const router = useRouter();
 
-    const active = path => router.asPath.split('/').includes(path);
+    const active = path => path.includes(router.pathname);
     const active_class = path => active(path) && ss.active;
 
     return (
@@ -16,12 +16,12 @@ const Aside = () => {
                 <ul className={ss.list}>
 
 
-                    <Aside_item cn={`${ss.item} ${active_class('admin_panel')}`}
-                                show={active('admin_panel')}
+                    <Aside_item cn={`${ss.item} ${active_class(['/admin_panel/client_base_page', '/admin_panel/categories_page'])}`}
+                                show={active(['/admin_panel/client_base_page', '/admin_panel/categories_page'])}
                                 submenu={
                               <>
-                                <Link href={'/admin_panel/client_base_page'}><li className={`${ss.sub_item} ${active_class('client_base_page')}`}>phone cards</li></Link>
-                                <Link href={'/admin_panel/categories_page'}><li className={`${ss.sub_item} ${active_class('categories_page')}`}>categories</li></Link>
+                                <Link href={'/admin_panel/client_base_page'}><li className={`${ss.sub_item} ${active_class(['/admin_panel/client_base_page'])}`}>phone cards</li></Link>
+                                <Link href={'/admin_panel/categories_page'}><li className={`${ss.sub_item} ${active_class(['/admin_panel/categories_page'])}`}>categories</li></Link>
                               </>
                           }
                     >
