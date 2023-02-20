@@ -14,7 +14,7 @@ const input = new InputClass();
 const category_colors = ['transparent', 'white', 'black', 'red', 'green', 'blue'];
 
 
-const submitHandler = (e, load_clients, setSearch, userCategories) => {
+const submitHandler = (e, load_clients, setSearch, userCategories, refresh_fields, phone) => {
     e.preventDefault();
 
 
@@ -25,7 +25,7 @@ const submitHandler = (e, load_clients, setSearch, userCategories) => {
 
 
 
-    if (submit_type === 'create') {server.store_contact_card(data, (r) => {console.log(r);}, () => {load_clients(); setSearch('found');});}
+    if (submit_type === 'create') {server.store_contact_card(data, (r) => {console.log(r);}, () => {load_clients(); refresh_fields(false); phone.setValue('')});}
     else if (submit_type === 'update') {server.update_contact_card(data, data.id, (r) => {console.log(r);}, () => {load_clients();})}
     else if (submit_type === 'delete') {server.destroy_contact_card(data.id, (r) => {console.log(r);}, () => {load_clients();})}
 };
@@ -220,7 +220,7 @@ const Client_base = ({statuses, clients, categories, load_clients, filterStatuse
 
 
                     <form className={`${ss.form} ${ss.update}`}
-                          onSubmit={e => {submitHandler(e, load_clients, setSearch, userCategories)}}
+                          onSubmit={e => {submitHandler(e, load_clients, setSearch, userCategories, refresh_fields, phone)}}
                     >
 
 
