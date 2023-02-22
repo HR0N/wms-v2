@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useState} from "react";
 import ss from "./Client_base.module.scss"
 import Form_serialize from "@/sublimates/form_serialize";
 import ServerClass from "@/sublimates/server";
@@ -148,6 +148,28 @@ const Client_base = ({statuses, clients, categories, load_clients, filterStatuse
         return filterArray.includes(user_categories);
     };
 
+    const filterCheckCategories_2 = () => {
+        let new_posts = [];
+        if(filterCategories.length > 0){
+            posts.map((v, k) => {
+                if (filterCheckCategories(v.categories, filterCategories)) new_posts.push(v);
+            });
+        }else{
+            new_posts = [...posts];
+        }
+        return new_posts;
+    };
+
+    const filterCheckStatus_2 = (filtered_clients) => {
+        if(filterStatuses.length > 0){
+            return filtered_clients.filter((v, k)=>{
+                return filterCheckStatus(v.status, filterStatuses);
+            });
+        }else{
+            return filtered_clients;
+        }
+    };
+
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
@@ -162,27 +184,36 @@ const Client_base = ({statuses, clients, categories, load_clients, filterStatuse
     // Get current posts
     const indexOfLastPost = currentPage * postsPerPage;
     const indexOfFirstPost = indexOfLastPost - postsPerPage;
-    const currentPosts = posts && posts.slice(indexOfFirstPost, indexOfLastPost);
+    let currentPosts = posts && posts.slice(indexOfFirstPost, indexOfLastPost);
+    let filtered_posts = [];
 
     // Change page
     const paginate = (pageNumber) => {setCurrentPage(pageNumber);};
 
 
-    const render_clients = () => currentPosts.map((v, k) => {
+    const render_clients = () => {
+        filtered_posts = filterCheckCategories_2();
+        filtered_posts = filterCheckStatus_2(filtered_posts);
 
 
-        if(filterStatuses.length > 0 && !filterCheckStatus(v.status, filterStatuses)) return ;
-        if(filterCategories.length > 0 && !filterCheckCategories(v.categories, filterCategories)) return ;
+        currentPosts = filtered_posts && filtered_posts.slice(indexOfFirstPost, indexOfLastPost);
+
+        return currentPosts.map((v, k) => {
 
 
-        return <div key={k}
-                    className={`${ss.phone} ${ss[get_category_color_by_user(v)]}`}
-                    id={v.id}
-                    onClick={e => phoneSelectHandler(e)}
-        >
-            {phone_split(v.phone)}
-        </div>
-    });
+            // if(filterStatuses.length > 0 && !filterCheckStatus(v.status, filterStatuses)) return ;
+            // if(filterCategories.length > 0 && !filterCheckCategories(v.categories, filterCategories)) return ;
+
+
+            return <div key={k}
+                        className={`${ss.phone} ${ss[get_category_color_by_user(v)]}`}
+                        id={v.id}
+                        onClick={e => phoneSelectHandler(e)}
+            >
+                {phone_split(v.phone)}
+            </div>
+        })
+    };
 
     const user_last_category = user => JSON.parse(user.categories).slice(-1);
     const get_category_color_by_user = user => {
@@ -347,14 +378,14 @@ const Client_base = ({statuses, clients, categories, load_clients, filterStatuse
                             {/*<div className={`${ss.phone}`}>063 605 66 49</div>*/}
                             {render_clients()}
                             {/*<div className={`${ss.phone}`} id={11} onClick={e => phoneSelectHandler(e)}>{`v.phone`}</div>*/}
-                            {posts.length > 48
-                            ? <Pagination
-                                postsPerPage={postsPerPage}
-                                totalPosts={posts && posts.length}
-                                paginate={paginate}
-                                currentPage={currentPage}
+                            {posts.length > 48 && filtered_posts.length > 48
+                                ? <Pagination
+                                    postsPerPage={postsPerPage}
+                                    totalPosts={posts && posts.length}
+                                    paginate={paginate}
+                                    currentPage={currentPage}
                                 />
-                            : false}
+                                : false}
 
                         </div>
                     </div>
