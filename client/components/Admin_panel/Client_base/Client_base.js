@@ -5,6 +5,7 @@ import ServerClass from "@/sublimates/server";
 import InputClass from "@/sublimates/input";
 import Loader_2 from "@/sublimates/loader/loader_2";
 import $ from 'jquery'
+import Pagination from "@/components/Admin_panel/Client_base/Pagination/Pagination";
 
 const serialize = new Form_serialize();
 const server = new ServerClass();
@@ -25,9 +26,9 @@ const submitHandler = (e, load_clients, setSearch, userCategories, refresh_field
 
 
 
-    if (submit_type === 'create') {server.store_contact_card(data, (r) => {console.log(r);}, () => {load_clients(); refresh_fields(false); phone.setValue('')});}
+    if (submit_type === 'create') {server.store_contact_card(data, (r) => {console.log(r);}, () => {load_clients(); refresh_fields(false); phone.setValue(''); setSearch('not');});}
     else if (submit_type === 'update') {server.update_contact_card(data, data.id, (r) => {console.log(r);}, () => {load_clients();})}
-    else if (submit_type === 'delete') {server.destroy_contact_card(data.id, (r) => {console.log(r);}, () => {load_clients();})}
+    else if (submit_type === 'delete') {server.destroy_contact_card(data.id, (r) => {console.log(r);}, () => {load_clients(); setSearch('not found');})}
 };
 
 
@@ -40,6 +41,7 @@ const phone_split = phone => phone.replaceAll(' ', '').replace(/(\d{3})(\d{3})(\
 const render_statuses = arr => arr.map((v, k) => <option key={k} value={v.id}>{v.category}</option>);
 
 const render_categories = arr => arr.map((v, k) => <option key={k} value={v.id}>{v.category}</option>);
+
 
 const Client_base = ({statuses, clients, categories, load_clients, filterStatuses, filterCategories}) => {
 
@@ -146,7 +148,27 @@ const Client_base = ({statuses, clients, categories, load_clients, filterStatuse
         return filterArray.includes(user_categories);
     };
 
-    const render_clients = () => clients.map((v, k) => {
+    const [posts, setPosts] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [postsPerPage, setPostsPerPage] = useState(48);
+
+    useEffect(() => {
+        setLoading(true);
+        if(clients !==  null) setPosts(clients);
+        setLoading(false);
+    }, [clients]);
+
+    // Get current posts
+    const indexOfLastPost = currentPage * postsPerPage;
+    const indexOfFirstPost = indexOfLastPost - postsPerPage;
+    const currentPosts = posts && posts.slice(indexOfFirstPost, indexOfLastPost);
+
+    // Change page
+    const paginate = (pageNumber) => {setCurrentPage(pageNumber);};
+
+
+    const render_clients = () => currentPosts.map((v, k) => {
 
 
         if(filterStatuses.length > 0 && !filterCheckStatus(v.status, filterStatuses)) return ;
@@ -325,6 +347,15 @@ const Client_base = ({statuses, clients, categories, load_clients, filterStatuse
                             {/*<div className={`${ss.phone}`}>063 605 66 49</div>*/}
                             {render_clients()}
                             {/*<div className={`${ss.phone}`} id={11} onClick={e => phoneSelectHandler(e)}>{`v.phone`}</div>*/}
+                            {posts.length > 48
+                            ? <Pagination
+                                postsPerPage={postsPerPage}
+                                totalPosts={posts && posts.length}
+                                paginate={paginate}
+                                currentPage={currentPage}
+                                />
+                            : false}
+
                         </div>
                     </div>
                 }

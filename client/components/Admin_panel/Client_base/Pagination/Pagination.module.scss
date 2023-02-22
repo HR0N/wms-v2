@@ -1,0 +1,27 @@
+.pagination{
+  display: flex;
+  justify-content: center;
+
+  width: 100%;
+
+  margin: 8px auto 0;
+  padding: 0;
+  list-style: none;
+  li{
+    padding: 4px 8px;
+    border: 1px solid grey;
+    border-right: none;
+    cursor: pointer;
+    user-select: none;
+    &:hover{
+      background-color: lightgrey;
+    }
+    &:nth-child(1){
+      border-radius: .2rem 0 0 .2rem;
+    }
+    &:nth-last-child(1){
+      border-right: 1px solid grey;
+      border-radius: 0 .2rem .2rem 0;
+    }
+  }
+}
