@@ -53,7 +53,7 @@ export const Header = ()=>{
                         </div>
                         <div className={ss.col_2}>
                             {isAdmin && <Link href={'admin_panel'}><div className={ss.nav_item}>Admin panel</div></Link>}
-                            <Link href={`https://wms.b.evilcode.space/login`} className={ss.auth}><div className={`${ss.nav_item}`}>Auth</div></Link>
+                            <Link href={`https://wmss.a-pochemu.net/login`} className={ss.auth}><div className={`${ss.nav_item}`}>Auth</div></Link>
                         </div>
                     </nav>
                     {mobile && showMenu ?

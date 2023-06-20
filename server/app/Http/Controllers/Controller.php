@@ -24,8 +24,8 @@ class Controller extends BaseController
     }
 
     public function redirect_post() {
-        $endpoint = 'https://wms.evilcode.space';
-//        $endpoint = 'https://wms.evilcode.space/auth';
+        $endpoint = 'https://wms.a-pochemu.net';
+//        $endpoint = 'https://wms.a-pochemu.net/auth';
         $data = [];
 
         $user = Auth::user();

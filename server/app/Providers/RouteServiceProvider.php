@@ -18,7 +18,7 @@ class RouteServiceProvider extends ServiceProvider
      * @var string
      */
     public const HOME = '/home';
-    public const WMS = 'https://wms.evilcode.space';
+    public const WMS = 'https://wms.a-pochemu.net';
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.

@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['https://wms.evilcode.space'],
+    'allowed_origins' => ['https://wms.a-pochemu.net'],
 
     'allowed_origins_patterns' => [],
 
